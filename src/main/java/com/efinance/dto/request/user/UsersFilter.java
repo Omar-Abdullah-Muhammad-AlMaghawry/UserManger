@@ -1,4 +1,4 @@
-package com.efinance.dto.request;
+package com.efinance.dto.request.user;
 
 import java.util.List;
 

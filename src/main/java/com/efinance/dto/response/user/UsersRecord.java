@@ -1,4 +1,4 @@
-package com.efinance.dto.response;
+package com.efinance.dto.response.user;
 
 import java.util.List;
 
