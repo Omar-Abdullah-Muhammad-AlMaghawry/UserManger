@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class UserContract {
+public class UserContact {
 
 	private String phoneNumber;
 	private boolean phoneVerified;

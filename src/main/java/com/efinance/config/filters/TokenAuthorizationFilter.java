@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.efinance.dto.user.UserDto;
+import com.efinance.dto.response.user.UserRecord;
 import com.efinance.services.security.SecurityService;
 
 @Component
@@ -33,7 +33,7 @@ public class TokenAuthorizationFilter extends OncePerRequestFilter {
 		try {
 			token = parseToken(request);
 			if (token != null) {
-				UserDto userDto = securityService.authenticate(token);
+				UserRecord userDto = securityService.validateToken(token);
 				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 						userDto, null, null);
 				authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

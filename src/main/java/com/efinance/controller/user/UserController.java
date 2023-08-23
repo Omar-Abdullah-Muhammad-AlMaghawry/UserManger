@@ -15,7 +15,7 @@ import com.efinance.dto.request.user.UserCreateBody;
 import com.efinance.dto.request.user.UsersFilter;
 import com.efinance.dto.request.user.UsersSort;
 import com.efinance.dto.response.PaginationResponse;
-import com.efinance.dto.response.user.UsersRecord;
+import com.efinance.dto.response.user.UserRecord;
 import com.efinance.services.user.UserService;
 
 @RestController
@@ -26,7 +26,7 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping("/view")
-	public PaginationResponse<UsersRecord> searchUsers(
+	public PaginationResponse<UserRecord> searchUsers(
 			PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions) {
 		return userService.searchUsers(paginationRequestOptions);
 	}

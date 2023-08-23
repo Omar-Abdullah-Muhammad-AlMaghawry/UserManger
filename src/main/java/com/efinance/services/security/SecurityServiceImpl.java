@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import com.efinance.dto.user.UserDto;
+import com.efinance.dto.response.user.UserRecord;
+import com.efinance.dto.security.MenuHierarchy;
 import com.efinance.exceptions.BusinessException;
 import com.efinance.orm.security.UserMenuActionData;
 import com.efinance.repositories.security.UserMenuActionDataRepository;
@@ -34,14 +35,14 @@ public class SecurityServiceImpl implements SecurityService {
 	private String validateTokenUrl;
 
 	@Override
-	public UserDto authenticate(String token) {
+	public UserRecord validateToken(String token) {
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			headers.set("Authorization", token);
 			HttpEntity<Void> entity = new HttpEntity<>(null, headers);
 
-			ResponseEntity<UserDto> responseEntity = restTemplate.exchange(validateTokenUrl, HttpMethod.POST, entity,
-					UserDto.class);
+			ResponseEntity<UserRecord> responseEntity = restTemplate.exchange(validateTokenUrl, HttpMethod.POST, entity,
+					UserRecord.class);
 			return responseEntity.getBody();
 		} catch (HttpStatusCodeException ex) {
 			if (ex.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
@@ -63,6 +64,12 @@ public class SecurityServiceImpl implements SecurityService {
 		List<UserMenuActionData> employeeMenuActions = userMenuActionDataRepository
 				.findAllByEmployeeIdAndMenuCodeAndModuleIdAndAction(empId, menuCode, module, action);
 		return employeeMenuActions.isEmpty() ? false : true;
+	}
+
+	@Override
+	public List<MenuHierarchy> getUserActiveMenuHierarchy(Long userId, Integer menuType) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

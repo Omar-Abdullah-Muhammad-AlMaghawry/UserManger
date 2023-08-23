@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class UsersRecord {
+public class UserRecord {
 
 	private String id;
 	private String name;
@@ -17,6 +17,6 @@ public class UsersRecord {
 	private boolean active;
 	private boolean banned;
 	private String banExpiryDate;
-	private UserContract contact;
+	private UserContact contact;
 	private List<UserMemberRecord> members;
 }
