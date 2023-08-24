@@ -1,10 +1,9 @@
 package com.efinance.orm.security;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,40 +12,33 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "ZFIN_MENU")
+@Table("ZFIN_MENU")
 public class Menu {
 
 	@Id
-	@Column(name = "ID")
+	@PrimaryKey
+	@Column("ID")
 	private Long id;
 
-	@Basic
-	@Column(name = "MENU_ORDER")
+	@Column("MENU_ORDER")
 	private Long order;
 
-	@Basic
-	@Column(name = "NAME")
+	@Column("NAME")
 	private String name;
 
-	@Basic
-	@Column(name = "URL")
+	@Column("URL")
 	private String url;
 
-	@Basic
-	@Column(name = "CLASSIFICATION")
+	@Column("CLASSIFICATION")
 	private int classification;
 
-	@Basic
-	@Column(name = "ACTIVE_FLAG")
+	@Column("ACTIVE_FLAG")
 	private Boolean activeFlag;
 
-	@Basic
-	@Column(name = "PARENT_ID")
+	@Column("PARENT_ID")
 	private Long parentId;
 
-	@Basic
-	@Column(name = "HAS_CHILDEREN")
+	@Column("HAS_CHILDEREN")
 	private Boolean hasChildren;
 
 }

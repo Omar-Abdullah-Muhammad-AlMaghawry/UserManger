@@ -2,11 +2,11 @@ package com.efinance.repositories.security;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.cassandra.repository.CassandraRepository;
 
 import com.efinance.orm.security.UserMenuActionData;
 
-public interface UserMenuActionDataRepository extends JpaRepository<UserMenuActionData, Long> {
+public interface UserMenuActionDataRepository extends CassandraRepository<UserMenuActionData, Long> {
 
 	List<UserMenuActionData> findAllByUserIdAndMenuCodeAndModuleId(Long userId, String menuCode, Long moduleId);
 

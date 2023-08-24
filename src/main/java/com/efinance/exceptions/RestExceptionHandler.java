@@ -1,6 +1,7 @@
 package com.efinance.exceptions;
 
-import org.hibernate.exception.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -28,8 +29,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.badRequest().body(new ErrorResponse("error_invalidRequestParams"));
 	}
 
-	@ExceptionHandler(ConstraintViolationException.class)
-	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
+	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+	protected ResponseEntity<Object> handleConstraintViolationException(SQLIntegrityConstraintViolationException ex,
 			WebRequest request) throws Exception {
 		logger.error(ex);
 		return ResponseEntity.badRequest().body(new ErrorResponse("error_invalidRequestParams"));
@@ -39,7 +40,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex,
 			WebRequest request) {
 		logger.error(ex);
-		if (ex.getCause() instanceof ConstraintViolationException) {
+		if (ex.getCause() instanceof SQLIntegrityConstraintViolationException) {
 			return ResponseEntity.badRequest().body(new ErrorResponse("error_invalidRequestParams"));
 		} else {
 			return ResponseEntity.badRequest().body(new ErrorResponse("error_general"));

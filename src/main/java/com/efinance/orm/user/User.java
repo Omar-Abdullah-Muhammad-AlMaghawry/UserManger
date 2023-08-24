@@ -2,11 +2,10 @@ package com.efinance.orm.user;
 
 import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 import com.efinance.dto.response.user.UserContact;
 import com.efinance.dto.response.user.UserMemberRecord;
@@ -18,40 +17,33 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "ZFIN_User")
+@Table("ZFIN_User")
 public class User {
 
 	@Id
-	@Column(name = "ID")
+	@PrimaryKey
+	@Column("ID")
 	private String id;
 
-	@Basic
-	@Column(name = "NAME")
+	@Column("NAME")
 	private String name;
 
-	@Basic
-	@Column(name = "CREATED_AT")
+	@Column("CREATED_AT")
 	private String createdAt;
 
-	@Basic
-	@Column(name = "ACTIVE")
+	@Column("ACTIVE")
 	private boolean active;
 
-	@Basic
-	@Column(name = "BANNED")
+	@Column("BANNED")
 	private boolean banned;
 
-	@Basic
-	@Column(name = "BAN_EXPIRY_DATE")
+	@Column("BAN_EXPIRY_DATE")
 	private String banExpiryDate;
 
-	@Basic
-	@Column(name = "CONTACT")
+	@Column("CONTACT")
 	private UserContact contact;
 
-	@Basic
-	@Column(name = "MEMBERS")
+	@Column("MEMBERS")
 	private List<UserMemberRecord> members;
 
 }
