@@ -10,6 +10,7 @@ public interface UserMenuActionDataRepository extends CassandraRepository<UserMe
 
 	List<UserMenuActionData> findAllByUserIdAndMenuCodeAndModuleId(Long userId, String menuCode, Long moduleId);
 
-	List<UserMenuActionData> findAllByEmployeeIdAndMenuCodeAndModuleIdAndAction(Long employeeId, String menuCode,
-			Long moduleId, String action);
+	List<UserMenuActionData> findAllByUserIdAndMenuCodeAndModuleIdAndAction(Long userId, String menuCode, Long moduleId,
+			String action);
+
 }

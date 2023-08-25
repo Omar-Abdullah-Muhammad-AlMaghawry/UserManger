@@ -31,7 +31,7 @@ public class SecurityServiceImpl implements SecurityService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Value("${integration.rst.auth.validate}")
+	@Value("${integration.rst.auth.validateToken}")
 	private String validateTokenUrl;
 
 	@Override
@@ -62,8 +62,9 @@ public class SecurityServiceImpl implements SecurityService {
 	@Override
 	public boolean isUserMenuActionGranted(Long empId, String menuCode, String action) {
 		List<UserMenuActionData> employeeMenuActions = userMenuActionDataRepository
-				.findAllByEmployeeIdAndMenuCodeAndModuleIdAndAction(empId, menuCode, module, action);
+				.findAllByUserIdAndMenuCodeAndModuleIdAndAction(empId, menuCode, module, action);
 		return employeeMenuActions.isEmpty() ? false : true;
+
 	}
 
 	@Override
