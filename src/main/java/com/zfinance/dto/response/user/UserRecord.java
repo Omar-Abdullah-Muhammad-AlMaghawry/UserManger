@@ -2,6 +2,9 @@ package com.zfinance.dto.response.user;
 
 import java.util.List;
 
+import com.zfinance.orm.userdefinedtypes.UserContact;
+import com.zfinance.orm.userdefinedtypes.UserMemberRecord;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
