@@ -11,12 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("ZFIN_VW_USERS_MENUS_ACTIONS")
+@Table("ZFIN_USERS_MENUS_ACTIONS")
 public class UserMenuActionData {
 
 	@PrimaryKey
 	@Column("ID")
-	private Long userMenuActionId;
+	private Long id;
 
 	@Column("MENU_ID")
 	private Long menuId;
