@@ -1,5 +1,6 @@
 package com.zfinance.services.user;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
 import com.zfinance.exceptions.DataNotFoundException;
 import com.zfinance.orm.user.User;
+import com.zfinance.orm.userdefinedtypes.UserContact;
 import com.zfinance.repositories.user.UserRepository;
 
 @Service
@@ -30,8 +32,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void save(UserCreateBody userCreateBody) {
-		// TODO:
+	public void create(UserCreateBody userCreateBody) {
+		User user = new User();
+		UserContact userContact = new UserContact();
+		String emailOrPhoneNember = userCreateBody.getLogin();
+
+		if (emailOrPhoneNember.contains("@")) {
+			userContact.setEmail(emailOrPhoneNember);
+		} else {
+			userContact.setPhoneNumber(emailOrPhoneNember);
+		}
+		user.setContact(userContact);
+		user.setCreatedAt((new Date()).toString());
+		user.setActive(true);
+		user.setBanned(false);
+//		TODO: the role ??
+		userRepository.save(user);
 	}
 
 	@Override
@@ -42,7 +58,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void unban(String userId) {
-		// TODO:
+		Optional<User> userOptional = userRepository.findById(userId);
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			user.setBanned(false);
+			userRepository.save(user);
+		} else {
+			throw new DataNotFoundException(User.class, userId);
+		}
 	}
 
 	@Override

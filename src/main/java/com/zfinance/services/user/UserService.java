@@ -11,7 +11,7 @@ public interface UserService {
 
 	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort);
 
-	public void save(UserCreateBody userCreateBody);
+	public void create(UserCreateBody userCreateBody);
 
 	public void delete(String userId);
 

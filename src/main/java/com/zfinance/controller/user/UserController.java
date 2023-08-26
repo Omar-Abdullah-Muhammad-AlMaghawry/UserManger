@@ -42,7 +42,7 @@ public class UserController {
 
 	@PostMapping
 	public void save(@RequestBody UserCreateBody userCreateBody) {
-		userService.save(userCreateBody);
+		userService.create(userCreateBody);
 	}
 
 	@DeleteMapping("{userId}")
