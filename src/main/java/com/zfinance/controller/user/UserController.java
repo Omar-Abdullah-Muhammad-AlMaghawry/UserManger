@@ -31,7 +31,7 @@ public class UserController {
 
 	@GetMapping("/view")
 	public PaginationResponse<UserRecord> searchUsers(
-			PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions) {
+			@RequestBody PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions) {
 		PaginationResponse<UserRecord> paginationResponse = new PaginationResponse<UserRecord>();
 		List<User> users = userService.searchUsers(paginationRequestOptions.getFilter(),
 				paginationRequestOptions.getSort());

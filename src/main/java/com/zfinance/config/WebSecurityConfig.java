@@ -31,7 +31,7 @@ public class WebSecurityConfig {
 		// authorizeRequests() is outdated and replaced with authorizeHttpRequests()
 		httpSecurity.authorizeHttpRequests().anyRequest().authenticated() // authenticate all routes
 				.and().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint()) // set unauthorized
-																								// response
+				// response
 				.and().cors() // enable cors filter
 				.and().csrf().disable(); // disable csrf
 

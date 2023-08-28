@@ -11,26 +11,26 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("ZFIN_USERS_MENUS_ACTIONS")
+@Table("zfin_users_menus_actions")
 public class UserMenuActionData {
 
 	@PrimaryKey
-	@Column("ID")
+	@Column("id")
 	private Long id;
 
-	@Column("MENU_ID")
+	@Column("menu_id")
 	private Long menuId;
 
-	@Column("USER_ID")
+	@Column("user_id")
 	private Long userId;
 
-	@Column("MENU_CODE")
+	@Column("menu_code")
 	private String menuCode;
 
-	@Column("MODULE_ID")
+	@Column("module_id")
 	private Long moduleId;
 
-	@Column("ACTION")
+	@Column("action")
 	private String action;
 
 }

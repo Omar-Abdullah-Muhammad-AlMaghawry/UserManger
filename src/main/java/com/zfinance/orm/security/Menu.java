@@ -11,32 +11,32 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("ZFIN_MENU")
+@Table("zfin_menu")
 public class Menu {
 
 	@PrimaryKey
-	@Column("ID")
+	@Column("id")
 	private Long id;
 
-	@Column("MENU_ORDER")
+	@Column("menu_order")
 	private Long order;
 
-	@Column("NAME")
+	@Column("name")
 	private String name;
 
-	@Column("URL")
+	@Column("url")
 	private String url;
 
-	@Column("CLASSIFICATION")
+	@Column("classification")
 	private int classification;
 
-	@Column("ACTIVE_FLAG")
+	@Column("active_flag")
 	private Boolean activeFlag;
 
-	@Column("PARENT_ID")
+	@Column("parent_id")
 	private Long parentId;
 
-	@Column("HAS_CHILDEREN")
+	@Column("has_children")
 	private Boolean hasChildren;
 
 }

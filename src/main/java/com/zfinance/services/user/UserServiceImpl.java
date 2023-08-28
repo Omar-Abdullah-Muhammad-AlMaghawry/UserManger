@@ -24,10 +24,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort) {
 
-		return userRepository.findUsersByFilter(usersFilter.getIds(), usersFilter.getEmail(),
-				usersFilter.getEmailVerified(), usersFilter.getPhone(), usersFilter.getPhoneVerified(),
-				usersFilter.getText(), usersFilter.getBanned(), usersFilter.getActive(), usersFilter.getRoles(),
-				usersFilter.getOrganizationIds(), usersSort.getCreatedAt(), usersSort.getActive());
+		return userRepository.findUsersByFilter(usersFilter.getBanned());
+//				userRepository.findUsersByFilter(usersFilter.getIds(), usersFilter.getEmail(),
+//				usersFilter.getEmailVerified(), usersFilter.getPhone(), usersFilter.getPhoneVerified(),
+//				usersFilter.getText(), usersFilter.getBanned(), usersFilter.getActive(), usersFilter.getRoles(),
+//				usersFilter.getOrganizationIds(), usersSort.getCreatedAt(), usersSort.getActive());
 
 	}
 
@@ -46,7 +47,9 @@ public class UserServiceImpl implements UserService {
 		user.setCreatedAt((new Date()).toString());
 		user.setActive(true);
 		user.setBanned(false);
-//		TODO: the role ??
+		user.setRole(userCreateBody.getRole());
+		user.setOrganizationId(userCreateBody.getOrganizationId());
+		user.setLegalType(userCreateBody.getLegalType());
 		userRepository.save(user);
 	}
 
