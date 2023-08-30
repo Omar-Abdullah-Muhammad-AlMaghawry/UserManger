@@ -20,12 +20,15 @@ public interface UserRepository extends CassandraRepository<User, String> {
 //			+ "AND (:P_ROLES IS NULL OR members.role IN :P_ROLES) "
 //			+ "AND (:P_ORGANIZATION_IDS IS NULL OR members.organization.id IN :P_ORGANIZATION_IDS) "
 //			+ "ORDER BY (:P_CREATED_AT AND :P_ATCIVE_SORT)")
-	@Query("SELECT * FROM ZFIN_USER WHERE " + "banned = :banned " + "ALLOW FILTERING")
-	List<User> findUsersByFilter(@Param("banned") Boolean banned);
-//	(@Param("ids") List<String> ids, @Param("P_EMAIL") String email,
-//			@Param("P_EMAIL_VERIFIED") Boolean emailVerified, @Param("P_PHONE_NUMBER") String phone,
-//			@Param("P_PHONE_NUMBER_VERIFIED") Boolean phoneVerified, @Param("P_TEXT") String text,
-//			@Param("P_BANNED") Boolean banned, @Param("P_ACTIVE") Boolean active, @Param("P_ROLES") List<String> roles,
-//			@Param("P_ORGANIZATION_IDS") List<String> organizationIds, @Param("P_CREATED_AT") String createdAt,
-//			@Param("P_ATCIVE_SORT") String activeSort);
+	@Query("SELECT * FROM ZFIN_USER " + "WHERE id IN (:p_ids) " + "AND contact.email = :p_email "
+			+ "AND contact.emailVerified = :p_email_verified " + "AND contact.phoneNumber = :p_phone_number "
+			+ "AND contact.phoneVerified = :p_phone_number_verified "
+			+ "AND contact.email LIKE '%' || :p_text || '%' OR contact.phoneNumber LIKE '%' || :p_text || '%' "
+			+ "AND banned = :p_banned " + "AND active = :p_active " + "AND role IN :p_roles "
+			+ "ORDER BY (:p_created_at AND :p_atcive_sort) " + "ALLOW FILTERING")
+	List<User> findUsersByFilter(@Param("p_ids") List<String> ids, @Param("p_email") String email,
+			@Param("p_email_verified") Boolean emailVerified, @Param("p_phone_number") String phone,
+			@Param("p_phone_number_verified") Boolean phoneVerified, @Param("p_text") String text,
+			@Param("p_banned") Boolean banned, @Param("p_active") Boolean active, @Param("p_roles") List<String> roles,
+			@Param("p_created_at") String createdAt, @Param("p_atcive_sort") String activeSort);
 }

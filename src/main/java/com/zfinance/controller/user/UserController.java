@@ -33,8 +33,17 @@ public class UserController {
 	public PaginationResponse<UserRecord> searchUsers(
 			@RequestBody PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions) {
 		PaginationResponse<UserRecord> paginationResponse = new PaginationResponse<UserRecord>();
-		List<User> users = userService.searchUsers(paginationRequestOptions.getFilter(),
-				paginationRequestOptions.getSort());
+		List<User> users = userService.searchUsers(paginationRequestOptions.getFilter(), paginationRequestOptions
+				.getSort());
+		paginationResponse.setRecords(UserMapper.INSTANCE.mapUsers(users));
+		paginationResponse.setTotalRecords(users.size());
+		return paginationResponse;
+	}
+
+	@GetMapping("/viewAllUsers")
+	public PaginationResponse<UserRecord> viewAllUsers() {
+		PaginationResponse<UserRecord> paginationResponse = new PaginationResponse<UserRecord>();
+		List<User> users = userService.findAllUser();
 		paginationResponse.setRecords(UserMapper.INSTANCE.mapUsers(users));
 		paginationResponse.setTotalRecords(users.size());
 		return paginationResponse;

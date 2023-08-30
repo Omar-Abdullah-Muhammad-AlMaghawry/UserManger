@@ -24,12 +24,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort) {
 
-		return userRepository.findUsersByFilter(usersFilter.getBanned());
-//				userRepository.findUsersByFilter(usersFilter.getIds(), usersFilter.getEmail(),
-//				usersFilter.getEmailVerified(), usersFilter.getPhone(), usersFilter.getPhoneVerified(),
-//				usersFilter.getText(), usersFilter.getBanned(), usersFilter.getActive(), usersFilter.getRoles(),
-//				usersFilter.getOrganizationIds(), usersSort.getCreatedAt(), usersSort.getActive());
+//		return userRepository.findUsersByFilter(usersFilter.getBanned());
+		return userRepository.findUsersByFilter(usersFilter.getIds(), usersFilter.getEmail(), usersFilter
+				.getEmailVerified(), usersFilter.getPhone(), usersFilter.getPhoneVerified(), usersFilter.getText(),
+				usersFilter.getBanned(), usersFilter.getActive(), usersFilter.getRoles(), usersSort.getCreatedAt(),
+				usersSort.getActive());
 
+	}
+
+	@Override
+	public List<User> findAllUser() {
+		return userRepository.findAll();
 	}
 
 	@Override

@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -29,14 +28,16 @@ public class WebSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
 		// authorizeRequests() is outdated and replaced with authorizeHttpRequests()
-		httpSecurity.authorizeHttpRequests().anyRequest().authenticated() // authenticate all routes
-				.and().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint()) // set unauthorized
+		httpSecurity.authorizeHttpRequests().antMatchers("/**").permitAll().anyRequest().authenticated() // authenticate
+																											// all
+																											// routes
+//				.and().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint()) // set unauthorized
 				// response
 				.and().cors() // enable cors filter
 				.and().csrf().disable(); // disable csrf
 
 		// add token authentication filter to authenticate api requests
-		httpSecurity.addFilterBefore(tokenAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+//		httpSecurity.addFilterBefore(tokenAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return httpSecurity.build();
 	}
