@@ -2,7 +2,6 @@ package com.zfinance.orm.user;
 
 import java.util.List;
 
-import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
@@ -39,17 +38,16 @@ public class User {
 	@Column("ban_expiry_date")
 	private String banExpiryDate;
 
-	@Column("role")
-	private String role;
-
-	@Column("organization_id")
-	private String organizationId;
-
-	@Column("legal_type")
-	private String legalType;
+//	@Column("role")
+//	private String role;
+//
+//	@Column("organization_id")
+//	private String organizationId;
+//
+//	@Column("legal_type")
+//	private String legalType;
 
 	@Column("contact")
-	@CassandraType(type = CassandraType.Name.UDT, userTypeName = "user_contact_type")
 	private UserContact contact;
 
 	@Column("members")

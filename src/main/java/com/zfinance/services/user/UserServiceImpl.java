@@ -1,8 +1,10 @@
 package com.zfinance.services.user;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import com.zfinance.dto.request.user.UsersSort;
 import com.zfinance.exceptions.DataNotFoundException;
 import com.zfinance.orm.user.User;
 import com.zfinance.orm.userdefinedtypes.UserContact;
+import com.zfinance.orm.userdefinedtypes.UserContractInfo;
+import com.zfinance.orm.userdefinedtypes.UserMemberRecord;
+import com.zfinance.orm.userdefinedtypes.UserOrganization;
 import com.zfinance.repositories.user.UserRepository;
 
 @Service
@@ -41,6 +46,12 @@ public class UserServiceImpl implements UserService {
 	public void create(UserCreateBody userCreateBody) {
 		User user = new User();
 		UserContact userContact = new UserContact();
+		UserMemberRecord memberRecord = new UserMemberRecord();
+		UserOrganization userOrganization = new UserOrganization();
+		UserContractInfo userContractInfo = new UserContractInfo();
+
+		List<UserMemberRecord> memberRecords = new ArrayList<UserMemberRecord>();
+
 		String emailOrPhoneNember = userCreateBody.getLogin();
 
 		if (emailOrPhoneNember.contains("@")) {
@@ -48,13 +59,21 @@ public class UserServiceImpl implements UserService {
 		} else {
 			userContact.setPhoneNumber(emailOrPhoneNember);
 		}
+		user.setId(UUID.randomUUID().toString());
 		user.setContact(userContact);
 		user.setCreatedAt((new Date()).toString());
 		user.setActive(true);
 		user.setBanned(false);
-		user.setRole(userCreateBody.getRole());
-		user.setOrganizationId(userCreateBody.getOrganizationId());
-		user.setLegalType(userCreateBody.getLegalType());
+		memberRecord.setRole(userCreateBody.getRole());
+		userOrganization.setId(userCreateBody.getOrganizationId());
+		userContractInfo.setPersonType(userCreateBody.getLegalType());
+		memberRecord.setContractInfo(userContractInfo);
+		memberRecord.setOrganization(userOrganization);
+//		user.setRole(userCreateBody.getRole());
+//		user.setOrganizationId(userCreateBody.getOrganizationId());
+//		user.setLegalType(userCreateBody.getLegalType());
+		memberRecords.add(memberRecord);
+		user.setMembers(memberRecords);
 		userRepository.save(user);
 	}
 

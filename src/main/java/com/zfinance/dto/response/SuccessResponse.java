@@ -11,6 +11,6 @@ public class SuccessResponse<R> {
 
 	private R response;
 	private Object error;
-//	private Response originalResponse;
+	private Object originalResponse;
 
 }
