@@ -1,5 +1,6 @@
 package com.zfinance.orm.userdefinedtypes;
 
+import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 import lombok.Getter;
@@ -11,9 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @UserDefinedType("user_name_info_type")
 public class UserNameInfo {
-	
-    private String first;
-    private String last;
-    private String middle;
-    
+
+	@Column("first")
+	private String first;
+
+	@Column("middle")
+	private String middle;
+
+	@Column("last")
+	private String last;
+
 }

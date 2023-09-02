@@ -13,18 +13,23 @@ import com.zfinance.dto.request.user.UserCreateBody;
 import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
 import com.zfinance.exceptions.DataNotFoundException;
+import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.user.User;
 import com.zfinance.orm.userdefinedtypes.UserContact;
 import com.zfinance.orm.userdefinedtypes.UserContractInfo;
 import com.zfinance.orm.userdefinedtypes.UserMemberRecord;
 import com.zfinance.orm.userdefinedtypes.UserOrganization;
 import com.zfinance.repositories.user.UserRepository;
+import com.zfinance.services.profile.UserProfileService;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private UserProfileService userProfileService;
 
 	@Override
 	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort) {
@@ -56,6 +61,7 @@ public class UserServiceImpl implements UserService {
 
 		if (emailOrPhoneNember.contains("@")) {
 			userContact.setEmail(emailOrPhoneNember);
+//			userContact.setEmailVerified(true);
 		} else {
 			userContact.setPhoneNumber(emailOrPhoneNember);
 		}
@@ -74,7 +80,12 @@ public class UserServiceImpl implements UserService {
 //		user.setLegalType(userCreateBody.getLegalType());
 		memberRecords.add(memberRecord);
 		user.setMembers(memberRecords);
-		userRepository.save(user);
+		user = userRepository.save(user);
+		UserProfile userProfile = new UserProfile();
+		userProfile.setId(UUID.randomUUID().toString());
+		userProfile.setUserId(user.getId());
+
+		userProfileService.saveUserProfile(userProfile);
 	}
 
 	@Override

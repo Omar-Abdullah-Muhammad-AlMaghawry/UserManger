@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zfinance.dto.request.PaginationRequestOptions;
+import com.zfinance.dto.request.user.ActiveDto;
 import com.zfinance.dto.request.user.UserCreateBody;
 import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
@@ -58,23 +59,23 @@ public class UserController {
 		return successResponse;
 	}
 
-	@DeleteMapping("{userId}")
+	@DeleteMapping("/{userId}")
 	public SuccessResponse<Void> delete(@PathVariable String userId) {
 		userService.delete(userId);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}
 
-	@PostMapping("{userId}/unban")
+	@PostMapping("/{userId}/unban")
 	public SuccessResponse<Void> unban(@PathVariable String userId) {
 		userService.unban(userId);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}
 
-	@PatchMapping("{userId}")
-	public SuccessResponse<Void> toggleActivate(@PathVariable String userId, @RequestBody Boolean active) {
-		userService.toggleActivate(userId, active);
+	@PatchMapping("/{userId}")
+	public SuccessResponse<Void> toggleActivate(@PathVariable String userId, @RequestBody ActiveDto activeDto) {
+		userService.toggleActivate(userId, activeDto.getActive());
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}

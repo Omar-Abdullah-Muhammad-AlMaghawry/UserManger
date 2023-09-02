@@ -19,7 +19,7 @@ public interface UserMapper {
 
 	public User mapUserRecord(UserRecord userRecord);
 
-	public default Page<UserRecord> mapUserss(Page<User> users) {
+	public default Page<UserRecord> mapUsers(Page<User> users) {
 		return users.map(this::mapUser);
 	}
 

@@ -1,5 +1,6 @@
 package com.zfinance.orm.userdefinedtypes;
 
+import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 import lombok.Getter;
@@ -11,11 +12,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @UserDefinedType("user_address_type")
 public class UserAddress {
-	
+
+	@Column("country")
 	private String country;
-    private String zipCode;
-    private String city;
-    private String street;
-    private String houseNumber;
-	
+
+	@Column("zip_code")
+	private String zipCode;
+
+	@Column("city")
+	private String city;
+
+	@Column("street")
+	private String street;
+
+	@Column("house_number")
+	private String houseNumber;
+
 }
