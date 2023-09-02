@@ -3,7 +3,7 @@ package com.zfinance.orm.user;
 public class UserProfile {
 
 	private UserInfo person;
-	private UserLogin contact;
+	private UserContact contact;
 	private String type;
 	private String status;
 	private UserBusiness business;
