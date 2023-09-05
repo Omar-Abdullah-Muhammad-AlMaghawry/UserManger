@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zfinance.orm.profile.UserProfile;
-import com.zfinance.orm.userdefinedtypes.UserAddress;
-import com.zfinance.orm.userdefinedtypes.UserBusiness;
-import com.zfinance.orm.userdefinedtypes.UserInfo;
-import com.zfinance.orm.userdefinedtypes.UserSecurity;
-import com.zfinance.repositories.user.profile.UserProfileRepository;
+import com.zfinance.orm.userdefinedtypes.user.UserAddress;
+import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
+import com.zfinance.orm.userdefinedtypes.user.UserInfo;
+import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
+import com.zfinance.repositories.profile.UserProfileRepository;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {

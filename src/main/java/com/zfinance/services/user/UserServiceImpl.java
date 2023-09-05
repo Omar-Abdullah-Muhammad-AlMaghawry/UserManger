@@ -15,10 +15,10 @@ import com.zfinance.dto.request.user.UsersSort;
 import com.zfinance.exceptions.DataNotFoundException;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.user.User;
-import com.zfinance.orm.userdefinedtypes.UserContact;
-import com.zfinance.orm.userdefinedtypes.UserContractInfo;
-import com.zfinance.orm.userdefinedtypes.UserMemberRecord;
-import com.zfinance.orm.userdefinedtypes.UserOrganization;
+import com.zfinance.orm.userdefinedtypes.user.UserContact;
+import com.zfinance.orm.userdefinedtypes.user.UserContractInfo;
+import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
+import com.zfinance.orm.userdefinedtypes.user.UserOrganization;
 import com.zfinance.repositories.user.UserRepository;
 import com.zfinance.services.profile.UserProfileService;
 

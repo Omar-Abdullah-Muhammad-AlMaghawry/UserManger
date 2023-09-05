@@ -13,10 +13,10 @@ import com.zfinance.dto.response.SuccessResponse;
 import com.zfinance.dto.response.profile.GetUserInfoResponse;
 import com.zfinance.mapper.UserProfileMapper;
 import com.zfinance.orm.profile.UserProfile;
-import com.zfinance.orm.userdefinedtypes.UserAddress;
-import com.zfinance.orm.userdefinedtypes.UserBusiness;
-import com.zfinance.orm.userdefinedtypes.UserInfo;
-import com.zfinance.orm.userdefinedtypes.UserSecurity;
+import com.zfinance.orm.userdefinedtypes.user.UserAddress;
+import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
+import com.zfinance.orm.userdefinedtypes.user.UserInfo;
+import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.services.profile.UserProfileService;
 
 @RestController

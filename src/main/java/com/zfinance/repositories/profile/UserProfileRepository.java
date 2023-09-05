@@ -1,4 +1,4 @@
-package com.zfinance.repositories.user.profile;
+package com.zfinance.repositories.profile;
 
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.data.cassandra.repository.Query;

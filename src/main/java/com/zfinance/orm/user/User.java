@@ -6,8 +6,8 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import com.zfinance.orm.userdefinedtypes.UserContact;
-import com.zfinance.orm.userdefinedtypes.UserMemberRecord;
+import com.zfinance.orm.userdefinedtypes.user.UserContact;
+import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

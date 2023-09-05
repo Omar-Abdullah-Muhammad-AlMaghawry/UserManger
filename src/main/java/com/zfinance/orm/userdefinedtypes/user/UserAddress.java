@@ -1,4 +1,4 @@
-package com.zfinance.orm.userdefinedtypes;
+package com.zfinance.orm.userdefinedtypes.user;
 
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.UserDefinedType;

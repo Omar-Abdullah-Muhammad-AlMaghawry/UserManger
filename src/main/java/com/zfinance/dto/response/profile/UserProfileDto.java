@@ -1,10 +1,10 @@
 package com.zfinance.dto.response.profile;
 
-import com.zfinance.orm.userdefinedtypes.UserAddress;
-import com.zfinance.orm.userdefinedtypes.UserBusiness;
-import com.zfinance.orm.userdefinedtypes.UserContact;
-import com.zfinance.orm.userdefinedtypes.UserInfo;
-import com.zfinance.orm.userdefinedtypes.UserSecurity;
+import com.zfinance.orm.userdefinedtypes.user.UserAddress;
+import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
+import com.zfinance.orm.userdefinedtypes.user.UserContact;
+import com.zfinance.orm.userdefinedtypes.user.UserInfo;
+import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
