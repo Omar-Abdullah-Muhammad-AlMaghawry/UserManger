@@ -17,7 +17,10 @@ import com.zfinance.dto.request.profile.TaxProfileDocumentDto;
 import com.zfinance.dto.response.SuccessResponse;
 import com.zfinance.dto.response.profile.ProfileDocumentDto;
 import com.zfinance.dto.response.profile.ProfileDocumentsResponse;
+import com.zfinance.dto.response.profile.UserProfileDocumentDto;
+import com.zfinance.dto.response.profile.UserProfileDocumentsResponse;
 import com.zfinance.mapper.ProfileDocumentMapper;
+import com.zfinance.mapper.UserProfileDocumentMapper;
 import com.zfinance.services.profile.ProfileDocumentService;
 
 @RestController
@@ -29,7 +32,7 @@ public class ProfileDocumentController {
 	private ProfileDocumentService profileDocumentService;
 
 	@GetMapping
-	public SuccessResponse<ProfileDocumentsResponse> getProfileDocuments() {
+	public ProfileDocumentsResponse getProfileDocuments() {
 
 		List<ProfileDocumentDto> profileDocumentDtos = ProfileDocumentMapper.INSTANCE.mapProfileDocuments(
 				profileDocumentService.getProfileDocuments());
@@ -39,11 +42,11 @@ public class ProfileDocumentController {
 
 		SuccessResponse<ProfileDocumentsResponse> successResponse = new SuccessResponse<>();
 		successResponse.setResponse(profileDocumentsResponse);
-		return successResponse;
+		return profileDocumentsResponse;
 	}
 
 	@PostMapping
-	public SuccessResponse<ProfileDocumentsResponse> linkPhotoToProfileDocuments(
+	public ProfileDocumentsResponse linkPhotoToProfileDocuments(
 			@RequestBody FileProfileDocumentDto fileProfileDocumentDto) {
 		List<ProfileDocumentDto> profileDocumentDtos = ProfileDocumentMapper.INSTANCE.mapProfileDocuments(
 				profileDocumentService.linkPhotoToProfileDocuments(fileProfileDocumentDto.getFileId(),
@@ -52,13 +55,13 @@ public class ProfileDocumentController {
 
 		profileDocumentsResponse.setDocuments(profileDocumentDtos);
 
-		SuccessResponse<ProfileDocumentsResponse> successResponse = new SuccessResponse<>();
-		successResponse.setResponse(profileDocumentsResponse);
-		return successResponse;
+//		SuccessResponse<ProfileDocumentsResponse> successResponse = new SuccessResponse<>();
+//		successResponse.setResponse(profileDocumentsResponse);
+		return profileDocumentsResponse;
 	}
 
 	@PostMapping("/identifier")
-	public SuccessResponse<ProfileDocumentsResponse> updateProfileTaxIdWithNumber(
+	public ProfileDocumentsResponse updateProfileTaxIdWithNumber(
 			@RequestBody TaxProfileDocumentDto taxProfileDocumentDto) {
 		List<ProfileDocumentDto> profileDocumentDtos = ProfileDocumentMapper.INSTANCE.mapProfileDocuments(
 				profileDocumentService.updateProfileTaxIdWithNumber(taxProfileDocumentDto.getDocumentIdentifier(),
@@ -67,23 +70,20 @@ public class ProfileDocumentController {
 
 		profileDocumentsResponse.setDocuments(profileDocumentDtos);
 
-		SuccessResponse<ProfileDocumentsResponse> successResponse = new SuccessResponse<>();
-		successResponse.setResponse(profileDocumentsResponse);
-		return successResponse;
+//		SuccessResponse<ProfileDocumentsResponse> successResponse = new SuccessResponse<>();
+//		successResponse.setResponse(profileDocumentsResponse);
+		return profileDocumentsResponse;
 	}
 
 	@PostMapping("/view")
-	public SuccessResponse<ProfileDocumentsResponse> viewAllUploadedProfileDocuments(
-			@RequestBody Map<String, ?> payload) {
-		List<ProfileDocumentDto> profileDocumentDtos = ProfileDocumentMapper.INSTANCE.mapProfileDocuments(
+	public UserProfileDocumentsResponse viewAllUploadedProfileDocuments(@RequestBody Map<String, ?> payload) {
+		List<UserProfileDocumentDto> userProfileDocumentDtos = UserProfileDocumentMapper.INSTANCE.mapProfileDocuments(
 				profileDocumentService.viewAllUploadedProfileDocuments(payload));
-		ProfileDocumentsResponse profileDocumentsResponse = new ProfileDocumentsResponse();
+		UserProfileDocumentsResponse userProfileDocumentsResponse = new UserProfileDocumentsResponse();
 
-		profileDocumentsResponse.setDocuments(profileDocumentDtos);
+		userProfileDocumentsResponse.setRecords(userProfileDocumentDtos);
 
-		SuccessResponse<ProfileDocumentsResponse> successResponse = new SuccessResponse<>();
-		successResponse.setResponse(profileDocumentsResponse);
-		return successResponse;
+		return userProfileDocumentsResponse;
 	}
 
 	@PostMapping("/{documentId}/approve")

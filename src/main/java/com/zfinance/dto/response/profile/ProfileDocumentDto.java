@@ -1,6 +1,6 @@
 package com.zfinance.dto.response.profile;
 
-import com.zfinance.orm.userdefinedtypes.profile.File;
+import com.zfinance.orm.userdefinedtypes.profile.FileType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProfileDocumentDto {
 
-	private File file;
+	private FileType file;
 	private String id;
 	private String label;
 	private String type;

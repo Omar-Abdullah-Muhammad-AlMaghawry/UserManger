@@ -4,35 +4,30 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import com.zfinance.orm.userdefinedtypes.profile.FileType;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
-@Table("zfin_profile_document")
-public class ProfileDocument {
+@Table("zfin_file")
+public class File {
 
 	@PrimaryKey
 	@Column("id")
 	private String id;
 
-	@Column("file")
-	private FileType file;
+	@Column("name")
+	private String name;
 
-	@Column("label")
-	private String label;
+	@Column("owner_id")
+	private String ownerId;
 
-	@Column("type")
-	private String type;
+	@Column("size")
+	private Long size;
 
-	@Column("status")
-	private String status;
-
-	@Column("document_identifier")
-	private String documentIdentifier;
+	@Column("url")
+	private String url;
 
 }

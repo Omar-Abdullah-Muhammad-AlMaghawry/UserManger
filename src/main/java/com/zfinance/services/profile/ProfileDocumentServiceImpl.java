@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.zfinance.enums.FileStatusEnum;
 import com.zfinance.exceptions.DataNotFoundException;
+import com.zfinance.mapper.FileMapper;
+import com.zfinance.orm.profile.File;
 import com.zfinance.orm.profile.ProfileDocument;
 import com.zfinance.orm.profile.UserProfileDocument;
+import com.zfinance.repositories.profile.FileRepository;
 import com.zfinance.repositories.profile.ProfileDocumentRepository;
 import com.zfinance.repositories.profile.UserProfileDocumentRepository;
 
@@ -23,6 +26,9 @@ public class ProfileDocumentServiceImpl implements ProfileDocumentService {
 	@Autowired
 	private UserProfileDocumentRepository userProfileDocumentRepository;
 
+	@Autowired
+	private FileRepository fileRepository;
+
 	@Override
 	public List<ProfileDocument> getProfileDocuments() {
 		return profileDocumentRepository.findAll();
@@ -34,7 +40,9 @@ public class ProfileDocumentServiceImpl implements ProfileDocumentService {
 
 		for (ProfileDocument profileDocument : profileDocuments) {
 
-			// TODO: LINK THE PHOTO FILE TO THE DOCS
+			File file = fileRepository.findById(fileId).get();
+
+			profileDocument.setFile(FileMapper.INSTANCE.mapFileType(file));
 
 			profileDocument.setType(type);
 			profileDocumentRepository.save(profileDocument);
@@ -58,9 +66,9 @@ public class ProfileDocumentServiceImpl implements ProfileDocumentService {
 	}
 
 	@Override
-	public List<ProfileDocument> viewAllUploadedProfileDocuments(Map<String, ?> payload) {
+	public List<UserProfileDocument> viewAllUploadedProfileDocuments(Map<String, ?> payload) {
 		// TODO Auto-generated method stub
-		return null;
+		return userProfileDocumentRepository.findAll();
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import com.zfinance.orm.userdefinedtypes.profile.UserProfileFile;
+import com.zfinance.orm.userdefinedtypes.profile.UserProfileFileType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ public class UserProfileDocument {
 	private String id;
 
 	@Column("file")
-	private UserProfileFile file;
+	private UserProfileFileType file;
 
 	@Column("document_identifier")
 	private String documentIdentifier;

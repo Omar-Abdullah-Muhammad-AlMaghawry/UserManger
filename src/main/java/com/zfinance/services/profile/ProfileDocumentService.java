@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.zfinance.orm.profile.ProfileDocument;
+import com.zfinance.orm.profile.UserProfileDocument;
 
 public interface ProfileDocumentService {
 
@@ -13,7 +14,7 @@ public interface ProfileDocumentService {
 
 	public List<ProfileDocument> updateProfileTaxIdWithNumber(String documentIdentifier, String type);
 
-	public List<ProfileDocument> viewAllUploadedProfileDocuments(Map<String, ?> payload);
+	public List<UserProfileDocument> viewAllUploadedProfileDocuments(Map<String, ?> payload);
 
 	public void approveDocument(String documentId);
 
