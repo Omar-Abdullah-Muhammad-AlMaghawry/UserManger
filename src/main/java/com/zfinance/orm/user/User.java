@@ -26,6 +26,12 @@ public class User {
 	@Column("name")
 	private String name;
 
+	@Column("email")
+	private String email;
+
+	@Column("enc_password")
+	private String encPassword;
+
 	@Column("created_at")
 	private String createdAt;
 

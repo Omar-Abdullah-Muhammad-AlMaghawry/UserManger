@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.zfinance.dto.request.user.UserCreateBody;
@@ -20,6 +21,7 @@ import com.zfinance.orm.userdefinedtypes.user.UserContractInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
 import com.zfinance.orm.userdefinedtypes.user.UserOrganization;
 import com.zfinance.repositories.user.UserRepository;
+import com.zfinance.services.external.AuthManagerService;
 import com.zfinance.services.profile.UserProfileService;
 
 @Service
@@ -30,6 +32,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserProfileService userProfileService;
+
+	@Autowired
+	private AuthManagerService authManagerService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort) {
@@ -60,8 +68,8 @@ public class UserServiceImpl implements UserService {
 		String emailOrPhoneNember = userCreateBody.getLogin();
 
 		if (emailOrPhoneNember.contains("@")) {
+			user.setEmail(emailOrPhoneNember);
 			userContact.setEmail(emailOrPhoneNember);
-//			userContact.setEmailVerified(true);
 		} else {
 			userContact.setPhoneNumber(emailOrPhoneNember);
 		}
@@ -80,7 +88,13 @@ public class UserServiceImpl implements UserService {
 //		user.setLegalType(userCreateBody.getLegalType());
 		memberRecords.add(memberRecord);
 		user.setMembers(memberRecords);
-		user = userRepository.save(user);
+
+		String encPassword = passwordEncoder.encode(userCreateBody.getPassword());
+		user.setEncPassword(encPassword);
+
+		authManagerService.registerUser(user);
+//		user = userRepository.save(user);
+
 		UserProfile userProfile = new UserProfile();
 		userProfile.setId(UUID.randomUUID().toString());
 		userProfile.setUserId(user.getId());

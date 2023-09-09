@@ -12,4 +12,6 @@ public class UserCreateBody {
 	private String role;
 	private String organizationId;
 	private String legalType;
+
+	private String password;
 }
