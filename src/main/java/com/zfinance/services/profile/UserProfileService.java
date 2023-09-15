@@ -22,4 +22,10 @@ public interface UserProfileService {
 
 	public UserProfile saveUserProfile(UserProfile userProfile);
 
+	public void approveIdentification(String id);
+
+	public void declineIdentification(String id);
+
+	public void resetIdentification(String id);
+
 }

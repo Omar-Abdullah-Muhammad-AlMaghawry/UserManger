@@ -100,6 +100,7 @@ public class UserServiceImpl implements UserService {
 		userProfile.setUserId(user.getId());
 
 		userProfileService.saveUserProfile(userProfile);
+
 	}
 
 	@Override

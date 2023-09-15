@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,6 +67,20 @@ public class UserProfileController {
 	@PatchMapping("/{userId}/security-settings")
 	public SuccessResponse<Void> updateUserSecurity(@PathVariable String userId, @RequestBody UserSecurity security) {
 		userProfileService.updateUserSecurity(userId, security);
+		SuccessResponse<Void> successResponse = new SuccessResponse<>();
+		return successResponse;
+	}
+
+	@PostMapping("/{id}/approve")
+	public SuccessResponse<Void> approveIdentification(@PathVariable String id) {
+		userProfileService.approveIdentification(id);
+		SuccessResponse<Void> successResponse = new SuccessResponse<>();
+		return successResponse;
+	}
+
+	@PostMapping("/{id}/decline")
+	public SuccessResponse<Void> declineIdentification(@PathVariable String id) {
+		userProfileService.declineIdentification(id);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}

@@ -3,6 +3,7 @@ package com.zfinance.services.profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zfinance.enums.FileStatusEnum;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
@@ -58,6 +59,31 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public UserProfile saveUserProfile(UserProfile userProfile) {
 		return userProfileRepository.save(userProfile);
+	}
+
+	// TODO: to be checked
+	@Override
+	public void approveIdentification(String id) {
+		UserProfile userProfile = userProfileRepository.findByUserId(id);
+		userProfile.setStatus(FileStatusEnum.APPROVED.getCode());
+		userProfileRepository.save(userProfile);
+	}
+
+	@Override
+	public void declineIdentification(String id) {
+		UserProfile userProfile = userProfileRepository.findByUserId(id);
+		userProfile.setStatus(FileStatusEnum.DECLINED.getCode());
+		userProfileRepository.save(userProfile);
+	}
+
+	@Override
+	public void resetIdentification(String id) {
+
+		UserProfile userProfile = userProfileRepository.findByUserId(id);
+		/// TODO: The user will need to upload the documents again to pass KYC
+		/// verification.
+		userProfileRepository.save(userProfile);
+
 	}
 
 }
