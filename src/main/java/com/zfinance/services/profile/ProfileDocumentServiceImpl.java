@@ -78,6 +78,7 @@ public class ProfileDocumentServiceImpl implements ProfileDocumentService {
 		if (userProfileDocumentOptional.isPresent()) {
 			UserProfileDocument userProfileDocument = userProfileDocumentOptional.get();
 			userProfileDocument.setStatus(FileStatusEnum.APPROVED.getCode());
+			userProfileDocumentRepository.save(userProfileDocument);
 		} else {
 			throw new DataNotFoundException(UserProfileDocument.class, documentId);
 		}
@@ -89,6 +90,7 @@ public class ProfileDocumentServiceImpl implements ProfileDocumentService {
 		if (userProfileDocumentOptional.isPresent()) {
 			UserProfileDocument userProfileDocument = userProfileDocumentOptional.get();
 			userProfileDocument.setStatus(FileStatusEnum.DECLINED.getCode());
+			userProfileDocumentRepository.save(userProfileDocument);
 		} else {
 			throw new DataNotFoundException(UserProfileDocument.class, documentId);
 		}
