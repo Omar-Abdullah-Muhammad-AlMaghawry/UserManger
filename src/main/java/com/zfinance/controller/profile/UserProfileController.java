@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zfinance.config.filters.TokenAuthorizationFilter;
+import com.zfinance.dto.request.profile.NewCredentials;
 import com.zfinance.dto.response.SuccessResponse;
 import com.zfinance.dto.response.profile.GetUserInfoResponse;
 import com.zfinance.mapper.UserProfileMapper;
@@ -18,7 +20,9 @@ import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
+import com.zfinance.services.external.AuthManagerService;
 import com.zfinance.services.profile.UserProfileService;
+import com.zfinance.services.user.UserService;
 
 @RestController
 @RequestMapping("/profiles")
@@ -27,6 +31,15 @@ public class UserProfileController {
 
 	@Autowired
 	private UserProfileService userProfileService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private AuthManagerService authManagerService;
+
+	@Autowired
+	private TokenAuthorizationFilter tokenAuthorizationFilter;
 
 	@GetMapping("/{userId}")
 	public GetUserInfoResponse getUserProfile(@PathVariable String userId) {
@@ -81,6 +94,15 @@ public class UserProfileController {
 	@PostMapping("/{id}/decline")
 	public SuccessResponse<Void> declineIdentification(@PathVariable String id) {
 		userProfileService.declineIdentification(id);
+		SuccessResponse<Void> successResponse = new SuccessResponse<>();
+		return successResponse;
+	}
+
+	@PatchMapping("/my/password")
+	public SuccessResponse<Void> declineIdentification(@RequestBody NewCredentials newCredentials) {
+		String token = tokenAuthorizationFilter.getToken();
+		String userId = authManagerService.getUserIdFromToken(token);
+		userService.updatePassword(userId, newCredentials);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}

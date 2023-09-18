@@ -39,7 +39,7 @@ public class User {
 	private boolean active;
 
 	@Column("banned")
-	private boolean banned;
+	private Boolean banned;
 
 	@Column("ban_expiry_date")
 	private String banExpiryDate;

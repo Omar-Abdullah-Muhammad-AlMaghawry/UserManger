@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.zfinance.dto.request.profile.NewCredentials;
 import com.zfinance.dto.request.user.UserCreateBody;
 import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
+import com.zfinance.exceptions.BusinessException;
 import com.zfinance.exceptions.DataNotFoundException;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.user.User;
@@ -131,6 +133,28 @@ public class UserServiceImpl implements UserService {
 			userRepository.save(user);
 		} else {
 			throw new DataNotFoundException(User.class, userId);
+		}
+	}
+
+	@Override
+	public User getUserById(String userId) {
+		Optional<User> userOptional = userRepository.findById(userId);
+		if (userOptional.isPresent()) {
+			return userOptional.get();
+		} else {
+			throw new DataNotFoundException(User.class, userId);
+		}
+	}
+
+	@Override
+	public void updatePassword(String userId, NewCredentials userPassword) {
+		User user = this.getUserById(userId);
+		if (passwordEncoder.matches(userPassword.getCurrentUserPassword(), user.getEncPassword())) {
+			String newEncPassword = passwordEncoder.encode(userPassword.getNewUserPassword());
+			user.setEncPassword(newEncPassword);
+			userRepository.save(user);
+		} else {
+			throw new BusinessException("error_invalidPassword");
 		}
 	}
 
