@@ -1,18 +1,24 @@
-package com.zfinance.orm.userdefinedtypes.user;
+package com.zfinance.orm.organization;
+
+import java.util.Date;
 
 import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
+
+import com.zfinance.orm.userdefinedtypes.user.UserContractInfo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
-@UserDefinedType("user_organization_type")
-public class UserOrganization {
+@Table("zfin_organization")
+public class Organization {
 
+	@PrimaryKey
 	@Column("id")
 	private String id;
 
@@ -31,7 +37,9 @@ public class UserOrganization {
 	@Column("identification_status")
 	private String identificationStatus;
 
-	@Column("organization_status")
-	private String organizationStatus;
+	@Column("contract_info")
+	private UserContractInfo contractInfo;
 
+	@Column("created_at")
+	private Date createdAt;
 }

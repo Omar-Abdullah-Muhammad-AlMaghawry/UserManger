@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.zfinance.config.filters.TokenAuthorizationFilter;
+import com.zfinance.dto.response.user.UserRecord;
 import com.zfinance.orm.user.User;
 
 @Service
@@ -39,7 +40,7 @@ public class AuthManagerServiceImpl implements AuthManagerService {
 	}
 
 	@Override
-	public String getUserIdFromToken(String token) {
+	public UserRecord getUserIdFromToken(String token) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Authorization", tokenAuthorizationFilter.getToken());
@@ -48,8 +49,8 @@ public class AuthManagerServiceImpl implements AuthManagerService {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(AUTH_MANAGER_URL + "/auth/getUserIdFromToken")
 				.queryParam("token", token);
 
-		ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
-				String.class);
+		ResponseEntity<UserRecord> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
+				UserRecord.class);
 		return response.getBody();
 
 	}

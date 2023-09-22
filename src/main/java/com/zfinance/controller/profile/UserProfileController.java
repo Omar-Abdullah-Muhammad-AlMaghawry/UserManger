@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zfinance.config.filters.TokenAuthorizationFilter;
+import com.zfinance.dto.request.profile.MyPersonDto;
 import com.zfinance.dto.request.profile.NewCredentials;
 import com.zfinance.dto.response.SuccessResponse;
 import com.zfinance.dto.response.profile.GetUserInfoResponse;
+import com.zfinance.dto.response.profile.MyUserProfileResponse;
+import com.zfinance.dto.response.user.UserRecord;
 import com.zfinance.mapper.UserProfileMapper;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
@@ -98,13 +101,54 @@ public class UserProfileController {
 		return successResponse;
 	}
 
+	@GetMapping("/my")
+	public MyUserProfileResponse getUserProfile() {
+		String token = tokenAuthorizationFilter.getToken();
+		UserRecord user = authManagerService.getUserIdFromToken(token);
+		UserProfile userProfile = userProfileService.getUserProfile(user.getId());
+		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
+		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
+
+		return myUserProfileResponse;
+	}
+
 	@PatchMapping("/my/password")
 	public SuccessResponse<Void> declineIdentification(@RequestBody NewCredentials newCredentials) {
 		String token = tokenAuthorizationFilter.getToken();
-		String userId = authManagerService.getUserIdFromToken(token);
-		userService.updatePassword(userId, newCredentials);
+		UserRecord user = authManagerService.getUserIdFromToken(token);
+		userService.updatePassword(user.getId(), newCredentials);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
+	}
+
+	@PatchMapping("/my/person")
+	public MyUserProfileResponse updatePersonInformation(@RequestBody MyPersonDto options) {
+		String token = tokenAuthorizationFilter.getToken();
+		UserRecord user = authManagerService.getUserIdFromToken(token);
+		UserProfile userProfile = userProfileService.updateUserProfileInfo(user.getId(), options.getPerson());
+		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
+		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
+		return myUserProfileResponse;
+	}
+
+	@PatchMapping("/my/contact")
+	public MyUserProfileResponse updateMyLogin(@RequestBody String login) {
+		String token = tokenAuthorizationFilter.getToken();
+		UserRecord user = authManagerService.getUserIdFromToken(token);
+		UserProfile userProfile = userProfileService.updateUserLogin(user.getId(), login);
+		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
+		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
+		return myUserProfileResponse;
+	}
+
+	@PatchMapping("/my/security-settings")
+	public MyUserProfileResponse updateMySecurity(@RequestBody UserSecurity security) {
+		String token = tokenAuthorizationFilter.getToken();
+		UserRecord user = authManagerService.getUserIdFromToken(token);
+		UserProfile userProfile = userProfileService.updateUserSecurity(user.getId(), security);
+		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
+		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
+		return myUserProfileResponse;
 	}
 
 }

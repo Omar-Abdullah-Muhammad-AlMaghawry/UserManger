@@ -40,8 +40,6 @@ public class ProfileDocumentController {
 
 		profileDocumentsResponse.setDocuments(profileDocumentDtos);
 
-		SuccessResponse<ProfileDocumentsResponse> successResponse = new SuccessResponse<>();
-		successResponse.setResponse(profileDocumentsResponse);
 		return profileDocumentsResponse;
 	}
 

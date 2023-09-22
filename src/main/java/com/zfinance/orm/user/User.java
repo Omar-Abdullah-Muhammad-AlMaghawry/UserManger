@@ -36,7 +36,7 @@ public class User {
 	private String createdAt;
 
 	@Column("active")
-	private boolean active;
+	private Boolean active;
 
 	@Column("banned")
 	private Boolean banned;

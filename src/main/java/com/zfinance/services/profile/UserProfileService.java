@@ -10,15 +10,15 @@ public interface UserProfileService {
 
 	public UserProfile getUserProfile(String userId);
 
-	public void updateUserProfileInfo(String userId, UserInfo person);
+	public UserProfile updateUserProfileInfo(String userId, UserInfo person);
 
-	public void updateUserAddress(String userId, UserAddress address);
+	public UserProfile updateUserAddress(String userId, UserAddress address);
 
-	public void updateUserBusiness(String userId, UserBusiness data);
+	public UserProfile updateUserBusiness(String userId, UserBusiness data);
 
-	public void updateUserLogin(String userId, String login);
+	public UserProfile updateUserLogin(String userId, String login);
 
-	public void updateUserSecurity(String userId, UserSecurity security);
+	public UserProfile updateUserSecurity(String userId, UserSecurity security);
 
 	public UserProfile saveUserProfile(UserProfile userProfile);
 

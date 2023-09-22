@@ -23,37 +23,37 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	public void updateUserProfileInfo(String userId, UserInfo person) {
+	public UserProfile updateUserProfileInfo(String userId, UserInfo person) {
 		UserProfile userProfile = userProfileRepository.findByUserId(userId);
 		userProfile.setPerson(person);
-		userProfileRepository.save(userProfile);
+		return userProfileRepository.save(userProfile);
 	}
 
 	@Override
-	public void updateUserAddress(String userId, UserAddress address) {
+	public UserProfile updateUserAddress(String userId, UserAddress address) {
 		UserProfile userProfile = userProfileRepository.findByUserId(userId);
 		userProfile.setAddress(address);
-		userProfileRepository.save(userProfile);
+		return userProfileRepository.save(userProfile);
 	}
 
 	@Override
-	public void updateUserBusiness(String userId, UserBusiness data) {
+	public UserProfile updateUserBusiness(String userId, UserBusiness data) {
 		UserProfile userProfile = userProfileRepository.findByUserId(userId);
 		userProfile.setBusiness(data);
-		userProfileRepository.save(userProfile);
+		return userProfileRepository.save(userProfile);
 	}
 
 	@Override
-	public void updateUserLogin(String userId, String login) {
+	public UserProfile updateUserLogin(String userId, String login) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override
-	public void updateUserSecurity(String userId, UserSecurity security) {
+	public UserProfile updateUserSecurity(String userId, UserSecurity security) {
 		UserProfile userProfile = userProfileRepository.findByUserId(userId);
 		userProfile.setSecurity(security);
-		userProfileRepository.save(userProfile);
+		return userProfileRepository.save(userProfile);
 	}
 
 	@Override
