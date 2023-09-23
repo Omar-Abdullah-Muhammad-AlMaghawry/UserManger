@@ -25,8 +25,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public List<Organization> findAllOrganizationByFilterAndSort(OrganizationsFilter organizationsFilter,
 			OrganizationsSort organizationsSort) {
 		if (organizationsFilter != null)
-			return organizationRepository.findAllByFilterAndSort(organizationsFilter.getTypes(), organizationsFilter
-					.getEmitentId(), organizationsFilter.getOrganizationTypes(), organizationsSort.getCreatedAt());
+			return organizationRepository.findAllByFilter(organizationsFilter.getType(), organizationsFilter
+					.getEmitentId(), organizationsFilter.getOrganizationTypes());
 		else
 			return this.findAllOrganization();
 	}

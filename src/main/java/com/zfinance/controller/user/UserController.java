@@ -54,7 +54,7 @@ public class UserController {
 
 	@PostMapping
 	public SuccessResponse<Void> save(@RequestBody UserCreateBody userCreateBody) {
-		userCreateBody.setPassword("12346");
+		userCreateBody.setPassword("12345");
 		userService.create(userCreateBody);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;

@@ -11,11 +11,8 @@ import com.zfinance.orm.organization.Organization;
 
 public interface OrganizationRepository extends CassandraRepository<Organization, String> {
 
-	@Query("SELECT * FROM zfin_organization " + "WHERE organization_type IN (:p_types) " + "ORDER BY ( created_at ) "
-			+ "ALLOW FILTERING")
-	List<Organization> findAllByFilterAndSort(@Param("p_types") List<String> types,
-			@Param("p_emitent_id") String emitentId,
-			@Param("p_organization_types") List<OrganizationTypes> organizationTypes,
-			@Param("p_created_at") String createdAt);
+	@Query("SELECT * FROM zfin_organization " + "WHERE organization_type = :p_type " + "ALLOW FILTERING")
+	List<Organization> findAllByFilter(@Param("p_type") String types, @Param("p_emitent_id") String emitentId,
+			@Param("p_organization_types") List<OrganizationTypes> organizationTypes);
 
 }

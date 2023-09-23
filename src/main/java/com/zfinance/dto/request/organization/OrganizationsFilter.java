@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrganizationsFilter {
 
-	private List<String> types;
+	private String type;
 	private String emitentId;
 	private List<OrganizationTypes> organizationTypes;
 
