@@ -7,6 +7,7 @@ import com.zfinance.enums.FileStatusEnum;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
+import com.zfinance.orm.userdefinedtypes.user.UserContact;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.repositories.profile.UserProfileRepository;
@@ -45,8 +46,19 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public UserProfile updateUserLogin(String userId, String login) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO: need to be completed
+
+//		User user = userService.getUserById(userId);
+		UserProfile userProfile = userProfileRepository.findByUserId(userId);
+		UserContact userContact = userProfile.getContact();
+
+		if (userContact.getEmail() != null)
+			userContact.setEmail(login);
+		userProfile.setContact(userContact);
+//		user.setContact(userContact);
+		// TODO: need to verify the email, then save it
+
+		return userProfileRepository.save(userProfile);
 	}
 
 	@Override

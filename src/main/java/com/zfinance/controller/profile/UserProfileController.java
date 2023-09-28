@@ -131,7 +131,7 @@ public class UserProfileController {
 		return myUserProfileResponse;
 	}
 
-	@PatchMapping("/my/contact")
+	@PostMapping("/my/contact")
 	public MyUserProfileResponse updateMyLogin(@RequestBody String login) {
 		String token = tokenAuthorizationFilter.getToken();
 		UserRecord user = authManagerService.getUserIdFromToken(token);
