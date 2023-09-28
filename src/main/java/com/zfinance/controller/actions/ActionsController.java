@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,7 +57,7 @@ public class ActionsController {
 	}
 
 	@PostMapping("/actions/save")
-	public ActionsRecord saveAction(ActionsRecord actionsRecord) {
+	public ActionsRecord saveAction(@RequestBody ActionsRecord actionsRecord) {
 		Actions actions = actionsService.saveActions(ActionsMapper.INSTANCE.mapActionsRecord(actionsRecord));
 		return ActionsMapper.INSTANCE.mapActions(actions);
 	}
