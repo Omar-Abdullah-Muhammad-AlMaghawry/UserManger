@@ -2,9 +2,9 @@ package com.zfinance.orm.organization;
 
 import java.util.Date;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.zfinance.orm.userdefinedtypes.user.UserContractInfo;
 
@@ -15,31 +15,31 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("zfin_organization")
+@Document("zfin_organization")
 public class Organization {
 
-	@PrimaryKey
-	@Column("id")
+	@Id
+	@Field("id")
 	private String id;
 
-	@Column("name")
+	@Field("name")
 	private String name;
 
-	@Column("status")
+	@Field("status")
 	private String status;
 
-	@Column("message")
+	@Field("message")
 	private String message;
 
-	@Column("organization_type")
+	@Field("organization_type")
 	private String type;
 
-	@Column("identification_status")
+	@Field("identification_status")
 	private String identificationStatus;
 
-	@Column("contract_info")
+	@Field("contract_info")
 	private UserContractInfo contractInfo;
 
-	@Column("created_at")
+	@Field("created_at")
 	private Date createdAt;
 }

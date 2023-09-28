@@ -1,7 +1,6 @@
 package com.zfinance.orm.userdefinedtypes.user;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,19 +9,18 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@UserDefinedType("user_business_type")
 public class UserBusiness {
 
-	@Column("company_name")
+	@Field("company_name")
 	private String companyName;
 
-	@Column("type")
+	@Field("type")
 	private String type;
 
-	@Column("vat")
+	@Field("vat")
 	private String vat;
 
-	@Column("administrator")
+	@Field("administrator")
 	private Administrator administrator;
 
 }

@@ -1,7 +1,6 @@
 package com.zfinance.orm.userdefinedtypes.actions;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,21 +9,20 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@UserDefinedType("action_type")
 public class Action {
 
-	@Column("role")
+	@Field("role")
 	private String role;
 
-	@Column("action_type")
+	@Field("action_type")
 	private String actionType;
 
-	@Column("entity_id")
+	@Field("entity_id")
 	private String entityId;
 
-	@Column("entity_name")
+	@Field("entity_name")
 	private String entityName;
 
-	@Column("type")
+	@Field("type")
 	private String type;
 }

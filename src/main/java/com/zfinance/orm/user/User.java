@@ -2,9 +2,9 @@ package com.zfinance.orm.user;
 
 import java.util.List;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
 import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
@@ -16,47 +16,47 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("zfin_user")
+@Document("zfin_user")
 public class User {
 
-	@PrimaryKey
-	@Column("id")
+	@Id
+	@Field("id")
 	private String id;
 
-	@Column("name")
+	@Field("name")
 	private String name;
 
-	@Column("email")
+	@Field("email")
 	private String email;
 
-	@Column("enc_password")
+	@Field("enc_password")
 	private String encPassword;
 
-	@Column("created_at")
+	@Field("created_at")
 	private String createdAt;
 
-	@Column("active")
+	@Field("active")
 	private Boolean active;
 
-	@Column("banned")
+	@Field("banned")
 	private Boolean banned;
 
-	@Column("ban_expiry_date")
+	@Field("ban_expiry_date")
 	private String banExpiryDate;
 
-//	@Column("role")
+//	@Field("role")
 //	private String role;
 //
-//	@Column("organization_id")
+//	@Field("organization_id")
 //	private String organizationId;
 //
-//	@Column("legal_type")
+//	@Field("legal_type")
 //	private String legalType;
 
-	@Column("contact")
+	@Field("contact")
 	private UserContact contact;
 
-	@Column("members")
+	@Field("members")
 	private List<UserMemberRecord> members;
 
 }

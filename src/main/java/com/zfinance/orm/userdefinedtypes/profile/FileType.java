@@ -1,7 +1,6 @@
 package com.zfinance.orm.userdefinedtypes.profile;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,22 +9,21 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@UserDefinedType("file_type")
 public class FileType {
 
-	@Column("id")
+	@Field("id")
 	private String id;
 
-	@Column("name")
+	@Field("name")
 	private String name;
 
-	@Column("owner_id")
+	@Field("owner_id")
 	private String ownerId;
 
-	@Column("size")
+	@Field("size")
 	private Long size;
 
-	@Column("url")
+	@Field("url")
 	private String url;
 
 }

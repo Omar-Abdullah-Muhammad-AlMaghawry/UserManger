@@ -1,8 +1,8 @@
 package com.zfinance.orm.security;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,32 +11,32 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("zfin_menu")
+@Document("zfin_menu")
 public class Menu {
 
-	@PrimaryKey
-	@Column("id")
+	@Id
+	@Field("id")
 	private Long id;
 
-	@Column("menu_order")
+	@Field("menu_order")
 	private Long order;
 
-	@Column("name")
+	@Field("name")
 	private String name;
 
-	@Column("url")
+	@Field("url")
 	private String url;
 
-	@Column("classification")
+	@Field("classification")
 	private int classification;
 
-	@Column("active_flag")
+	@Field("active_flag")
 	private Boolean activeFlag;
 
-	@Column("parent_id")
+	@Field("parent_id")
 	private Long parentId;
 
-	@Column("has_children")
+	@Field("has_children")
 	private Boolean hasChildren;
 
 }

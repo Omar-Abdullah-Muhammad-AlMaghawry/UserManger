@@ -1,13 +1,10 @@
 package com.zfinance.repositories.profile;
 
-import org.springframework.data.cassandra.repository.CassandraRepository;
-import org.springframework.data.cassandra.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.zfinance.orm.profile.UserProfile;
 
-public interface UserProfileRepository extends CassandraRepository<UserProfile, String> {
+public interface UserProfileRepository extends MongoRepository<UserProfile, String> {
 
-	@Query("SELECT * FROM zfin_user_profile " + " WHERE user_id = :p_user_id " + " ALLOW FILTERING ")
-	UserProfile findByUserId(@Param("p_user_id") String userId);
+	UserProfile findByUserId(String userId);
 }

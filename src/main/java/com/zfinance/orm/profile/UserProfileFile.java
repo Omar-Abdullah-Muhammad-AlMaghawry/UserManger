@@ -1,8 +1,8 @@
 package com.zfinance.orm.profile;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,43 +11,43 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@Table("zfin_user_profile_file")
+@Document("zfin_user_profile_file")
 public class UserProfileFile {
 
-	@PrimaryKey
-	@Column("id")
+	@Id
+	@Field("id")
 	private String id;
 
-	@Column("owner_id")
+	@Field("owner_id")
 	private String ownerId;
 
-	@Column("media_type")
+	@Field("media_type")
 	private String mediaType;
 
-	@Column("name")
+	@Field("name")
 	private String name;
 
-	@Column("url")
+	@Field("url")
 	private String url;
 
-	@Column("md5")
+	@Field("md5")
 	private String md5;
 
-	@Column("sha1")
+	@Field("sha1")
 	private String sha1;
 
-	@Column("size")
+	@Field("size")
 	private Long size;
 
-	@Column("used")
+	@Field("used")
 	private Boolean used;
 
-	@Column("created_at")
+	@Field("created_at")
 	private String createdAt;
 
-	@Column("expires_at")
+	@Field("expires_at")
 	private String expiresAt;
 
-	@Column("tag")
+	@Field("tag")
 	private String tag;
 }

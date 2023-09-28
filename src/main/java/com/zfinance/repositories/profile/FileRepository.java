@@ -1,14 +1,11 @@
 package com.zfinance.repositories.profile;
 
-import org.springframework.data.cassandra.repository.CassandraRepository;
-import org.springframework.data.cassandra.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.zfinance.orm.profile.File;
 
-public interface FileRepository extends CassandraRepository<File, String> {
+public interface FileRepository extends MongoRepository<File, String> {
 
-	@Query("SELECT * FROM zfin_file " + " WHERE owner_id = :p_owner_id " + " ALLOW FILTERING ")
-	File findByOwnerId(@Param("p_owner_id") String ownerId);
+	File findByOwnerId(String ownerId);
 
 }

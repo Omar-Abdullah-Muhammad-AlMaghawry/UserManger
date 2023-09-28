@@ -2,17 +2,19 @@ package com.zfinance.repositories.organization;
 
 import java.util.List;
 
-import org.springframework.data.cassandra.repository.CassandraRepository;
-import org.springframework.data.cassandra.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
-import com.zfinance.dto.request.organization.OrganizationTypes;
+import com.zfinance.dto.request.organization.OrganizationsFilter;
+import com.zfinance.dto.request.organization.OrganizationsSort;
 import com.zfinance.orm.organization.Organization;
 
-public interface OrganizationRepository extends CassandraRepository<Organization, String> {
+public interface OrganizationRepository extends MongoRepository<Organization, String> {
 
-	@Query("SELECT * FROM zfin_organization " + "WHERE organization_type = :p_type " + "ALLOW FILTERING")
-	List<Organization> findAllByFilter(@Param("p_type") String types, @Param("p_emitent_id") String emitentId,
-			@Param("p_organization_types") List<OrganizationTypes> organizationTypes);
+	@Query("{ $and: [" + "?#{ [0]?.type != null ? { 'type': [0]?.type } : null },"
+			+ "?#{ [0]?.emitentId != null ? { 'emitentId': [0]?.emitentId } : null },"
+			+ "?#{ [0]?.organizationTypes != null ? { 'organizationTypes': { $in: [0]?.organizationTypes } } : null }"
+			+ "] }" + ", $orderby: { " + "?#{ [1]?.createdAt != null ? 'createdAt' : null } : 1" + "}")
+	List<Organization> searchOrganizations(OrganizationsFilter filter, OrganizationsSort sort);
 
 }

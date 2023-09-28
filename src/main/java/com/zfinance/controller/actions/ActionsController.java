@@ -15,6 +15,7 @@ import com.zfinance.dto.request.actions.ActionsOfUsersFilter;
 import com.zfinance.dto.request.actions.ActionsOfUsersSort;
 import com.zfinance.dto.response.PaginationResponse;
 import com.zfinance.dto.response.actions.ActionsOfUsersRecord;
+import com.zfinance.dto.response.actions.ActionsRecord;
 import com.zfinance.dto.response.actions.ActionsResponse;
 import com.zfinance.mapper.ActionsMapper;
 import com.zfinance.mapper.ActionsOfUsersMapper;
@@ -45,5 +46,18 @@ public class ActionsController {
 		ActionsResponse actionsResponse = new ActionsResponse();
 		actionsResponse.setRecords(ActionsMapper.INSTANCE.mapActions(actions));
 		return actionsResponse;
+	}
+
+	@PostMapping("/actionOfUser/save")
+	public ActionsOfUsersRecord saveActionOfUser(ActionsOfUsersRecord actionsOfUsersRecord) {
+		ActionsOfUsers actionsOfUsers = actionsService.saveActionOfUser(ActionsOfUsersMapper.INSTANCE
+				.mapActionsOfUsersRecord(actionsOfUsersRecord));
+		return ActionsOfUsersMapper.INSTANCE.mapActionsOfUsers(actionsOfUsers);
+	}
+
+	@PostMapping("/actions/save")
+	public ActionsRecord saveAction(ActionsRecord actionsRecord) {
+		Actions actions = actionsService.saveActions(ActionsMapper.INSTANCE.mapActionsRecord(actionsRecord));
+		return ActionsMapper.INSTANCE.mapActions(actions);
 	}
 }

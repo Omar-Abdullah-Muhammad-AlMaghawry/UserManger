@@ -2,9 +2,9 @@ package com.zfinance.orm.actions;
 
 import java.util.List;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.zfinance.orm.userdefinedtypes.actions.Action;
 
@@ -15,13 +15,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("zfin_actions")
+@Document("zfin_actions")
 public class Actions {
 
-	@PrimaryKey("id")
+	@Id
+	@Field("id")
 	private String actionId;
 
-	@Column("objects_of_action")
+	@Field("objects_of_action")
 	private List<Action> objectsOfAction;
 
 }

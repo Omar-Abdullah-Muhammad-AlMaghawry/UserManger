@@ -1,8 +1,8 @@
 package com.zfinance.orm.profile;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
@@ -17,35 +17,35 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("zfin_user_profile")
+@Document("zfin_user_profile")
 public class UserProfile {
 
-	@PrimaryKey
-	@Column("id")
+	@Id
+	@Field("id")
 	private String id;
 
-	@Column("user_id")
+	@Field("user_id")
 	private String userId;
 
-	@Column("person")
+	@Field("person")
 	private UserInfo person;
 
-	@Column("contact")
+	@Field("contact")
 	private UserContact contact;
 
-	@Column("type")
+	@Field("type")
 	private String type;
 
-	@Column("status")
+	@Field("status")
 	private String status;
 
-	@Column("business")
+	@Field("business")
 	private UserBusiness business;
 
-	@Column("address")
+	@Field("address")
 	private UserAddress address;
 
-	@Column("security")
+	@Field("security")
 	private UserSecurity security;
 
 }

@@ -14,4 +14,8 @@ public interface ActionsService {
 
 	public List<Actions> getRecord(String actionId);
 
+	public ActionsOfUsers saveActionOfUser(ActionsOfUsers actionsOfUsers);
+
+	public Actions saveActions(Actions actions);
+
 }

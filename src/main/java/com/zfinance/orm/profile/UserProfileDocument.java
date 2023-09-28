@@ -1,8 +1,8 @@
 package com.zfinance.orm.profile;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.zfinance.orm.userdefinedtypes.profile.UserProfileFileType;
 
@@ -13,28 +13,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table("zfin_user_profile_document")
+@Document("zfin_user_profile_document")
 public class UserProfileDocument {
 
-	@PrimaryKey
-	@Column("id")
+	@Id
+	@Field("id")
 	private String id;
 
-	@Column("file")
+	@Field("file")
 	private UserProfileFileType file;
 
-	@Column("document_identifier")
+	@Field("document_identifier")
 	private String documentIdentifier;
 
-	@Column("type")
+	@Field("type")
 	private String type;
 
-	@Column("label")
+	@Field("label")
 	private String label;
 
-	@Column("status")
+	@Field("status")
 	private String status;
 
-	@Column("updated_at")
+	@Field("updated_at")
 	private String updatedAt;
 }

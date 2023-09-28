@@ -1,7 +1,6 @@
 package com.zfinance.orm.userdefinedtypes.user;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,13 +9,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@UserDefinedType("notification_type")
 public class Notification {
 
-	@Column("phone")
+	@Field("phone")
 	private Boolean phone;
 
-	@Column("email")
+	@Field("email")
 	private Boolean email;
 
 }

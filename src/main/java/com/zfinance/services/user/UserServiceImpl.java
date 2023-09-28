@@ -7,6 +7,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +34,9 @@ import com.zfinance.services.profile.UserProfileService;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
+	private MongoTemplate mongoTemplate;
+
+	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
@@ -44,12 +51,72 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort) {
 
-//		return userRepository.findUsersByFilter(usersFilter.getBanned());
-		return userRepository.findUsersByFilter(usersFilter.getIds(), usersFilter.getEmail(), usersFilter
-				.getEmailVerified(), usersFilter.getPhone(), usersFilter.getPhoneVerified(), usersFilter.getText(),
-				usersFilter.getBanned(), usersFilter.getActive(), usersFilter.getRoles(), usersSort.getCreatedAt(),
-				usersSort.getActive());
+		Criteria criteria = new Criteria();
 
+		// Add usersFilter criteria based on the usersFilter object
+		if (usersFilter != null) {
+			if (usersFilter.getIds() != null && !usersFilter.getIds().isEmpty()) {
+				criteria.and("id").in(usersFilter.getIds());
+			}
+			if (usersFilter.getEmail() != null) {
+				criteria.and("email").is(usersFilter.getEmail());
+			}
+			if (usersFilter.getEmailVerified() != null) {
+				criteria.and("contact.emailVerified").is(usersFilter.getEmailVerified());
+			}
+			if (usersFilter.getPhone() != null) {
+				criteria.and("contact.phoneNumber").is(usersFilter.getPhone());
+			}
+			if (usersFilter.getPhoneVerified() != null) {
+				criteria.and("contact.phoneVerified").is(usersFilter.getPhoneVerified());
+			}
+			if (usersFilter.getText() != null) {
+				// Example of adding text search criteria (you can customize this)
+				criteria.orOperator(Criteria.where("name").regex(usersFilter.getText(), "i"), Criteria.where("email")
+						.regex(usersFilter.getText(), "i"));
+			}
+			if (usersFilter.getBanned() != null) {
+				criteria.and("banned").is(usersFilter.getBanned());
+			}
+			if (usersFilter.getActive() != null) {
+				criteria.and("active").is(usersFilter.getActive());
+			}
+			if (usersFilter.getRoles() != null && !usersFilter.getRoles().isEmpty()) {
+				criteria.and("members.role").in(usersFilter.getRoles());
+			}
+			if (usersFilter.getIdentificationStatus() != null) {
+				criteria.and("members.organization.identificationStatus").is(usersFilter.getIdentificationStatus());
+			}
+			if (usersFilter.getOrganizationIds() != null && !usersFilter.getOrganizationIds().isEmpty()) {
+				criteria.and("members.organization.id").in(usersFilter.getOrganizationIds());
+			}
+			if (usersFilter.getIban() != null) {
+				criteria.and("contact.iban").is(usersFilter.getIban());
+			}
+			if (usersFilter.getTid() != null) {
+				criteria.and("contact.tid").is(usersFilter.getTid());
+			}
+			if (usersFilter.getVirtualAccountNumber() != null) {
+				criteria.and("contact.virtualAccountNumber").is(usersFilter.getVirtualAccountNumber());
+			}
+			if (usersFilter.getPersonalId() != null) {
+				criteria.and("members.organization.personType").is(usersFilter.getPersonalId());
+			}
+		}
+
+		Query query = new Query(criteria);
+
+		// Apply sorting
+		if (usersSort != null) {
+			if (usersSort.getCreatedAt() != null) {
+				query.with(Sort.by(Sort.Order.asc("createdAt")));
+			}
+			if (usersSort.getActive() != null) {
+				query.with(Sort.by(Sort.Order.asc("active")));
+			}
+		}
+
+		return mongoTemplate.find(query, User.class);
 	}
 
 	@Override
@@ -83,6 +150,7 @@ public class UserServiceImpl implements UserService {
 		memberRecord.setRole(userCreateBody.getRole());
 		userOrganization.setId(userCreateBody.getOrganizationId());
 		userContractInfo.setPersonType(userCreateBody.getLegalType());
+		memberRecord.setId(UUID.randomUUID().toString());
 		memberRecord.setContractInfo(userContractInfo);
 		memberRecord.setOrganization(userOrganization);
 //		user.setRole(userCreateBody.getRole());

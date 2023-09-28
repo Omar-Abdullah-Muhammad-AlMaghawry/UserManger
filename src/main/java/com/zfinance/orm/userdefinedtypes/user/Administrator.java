@@ -1,7 +1,6 @@
 package com.zfinance.orm.userdefinedtypes.user;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,19 +9,18 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@UserDefinedType("administrator_type")
 public class Administrator {
 
-	@Column("firstName")
+	@Field("firstName")
 	private String firstName;
 
-	@Column("lastName")
+	@Field("lastName")
 	private String lastName;
 
-	@Column("email")
+	@Field("email")
 	private String email;
 
-	@Column("phone")
+	@Field("phone")
 	private String phone;
 
 }

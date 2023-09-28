@@ -1,8 +1,8 @@
 package com.zfinance.orm.profile;
 
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,23 +11,23 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@Table("zfin_file")
+@Document("zfin_file")
 public class File {
 
-	@PrimaryKey
-	@Column("id")
+	@Id
+	@Field("id")
 	private String id;
 
-	@Column("name")
+	@Field("name")
 	private String name;
 
-	@Column("owner_id")
+	@Field("owner_id")
 	private String ownerId;
 
-	@Column("size")
+	@Field("size")
 	private Long size;
 
-	@Column("url")
+	@Field("url")
 	private String url;
 
 }
