@@ -60,7 +60,12 @@ public class ActionsServiceServiceImpl implements ActionsService {
 
 		// Apply sorting
 		if (actionsOfUsersSort != null && actionsOfUsersSort.getDateCreated() != null) {
-			query.with(Sort.by(Sort.Order.asc("performedAt")));
+
+			if (actionsOfUsersSort.getDateCreated().equalsIgnoreCase("asc")) {
+				query.with(Sort.by(Sort.Order.asc("performedAt")));
+			} else if (actionsOfUsersSort.getDateCreated().equalsIgnoreCase("desc")) {
+				query.with(Sort.by(Sort.Order.desc("performedAt")));
+			}
 		}
 
 		return mongoTemplate.find(query, ActionsOfUsers.class);

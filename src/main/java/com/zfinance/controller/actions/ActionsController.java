@@ -34,7 +34,7 @@ public class ActionsController {
 
 	@PostMapping("/actions")
 	public PaginationResponse<ActionsOfUsersRecord> getRecords(
-			PaginationRequestOptions<ActionsOfUsersFilter, ActionsOfUsersSort> options) {
+			@RequestBody PaginationRequestOptions<ActionsOfUsersFilter, ActionsOfUsersSort> options) {
 		List<ActionsOfUsers> actionsOfUsers = actionsService.getRecords(options.getFilter(), options.getSort());
 		PaginationResponse<ActionsOfUsersRecord> paginationResponse = new PaginationResponse<>();
 		paginationResponse.setRecords(ActionsOfUsersMapper.INSTANCE.mapActionsOfUserses(actionsOfUsers));
@@ -50,7 +50,7 @@ public class ActionsController {
 	}
 
 	@PostMapping("/actionOfUser/save")
-	public ActionsOfUsersRecord saveActionOfUser(ActionsOfUsersRecord actionsOfUsersRecord) {
+	public ActionsOfUsersRecord saveActionOfUser(@RequestBody ActionsOfUsersRecord actionsOfUsersRecord) {
 		ActionsOfUsers actionsOfUsers = actionsService.saveActionOfUser(ActionsOfUsersMapper.INSTANCE
 				.mapActionsOfUsersRecord(actionsOfUsersRecord));
 		return ActionsOfUsersMapper.INSTANCE.mapActionsOfUsers(actionsOfUsers);

@@ -1,6 +1,7 @@
 package com.zfinance.services.organization;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.zfinance.dto.request.organization.OrganizationsFilter;
 import com.zfinance.dto.request.organization.OrganizationsSort;
+import com.zfinance.exceptions.DataNotFoundException;
 import com.zfinance.orm.organization.Organization;
 import com.zfinance.repositories.organization.OrganizationRepository;
 
@@ -26,6 +28,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<Organization> findAllOrganization() {
 		return organizationRepository.findAll();
+	}
+
+	@Override
+	public Organization findOrganizationById(String id) {
+		Optional<Organization> optional = organizationRepository.findById(id);
+		if (optional.isPresent())
+			return optional.get();
+		else
+			throw new DataNotFoundException(Organization.class, id);
 	}
 
 	@Override
@@ -52,10 +63,19 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 		// Apply sorting
 		if (organizationsSort != null && organizationsSort.getCreatedAt() != null) {
-			query.with(Sort.by(Sort.Order.asc("createdAt")));
+			if (organizationsSort.getCreatedAt().equalsIgnoreCase("asc")) {
+				query.with(Sort.by(Sort.Order.asc("createdAt")));
+			} else if (organizationsSort.getCreatedAt().equalsIgnoreCase("desc")) {
+				query.with(Sort.by(Sort.Order.desc("createdAt")));
+			}
 		}
 
 		return mongoTemplate.find(query, Organization.class);
+	}
+
+	@Override
+	public Organization save(Organization organization) {
+		return organizationRepository.save(organization);
 	}
 
 }

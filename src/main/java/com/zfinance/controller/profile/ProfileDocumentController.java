@@ -1,7 +1,6 @@
 package com.zfinance.controller.profile;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zfinance.dto.request.PaginationRequestOptions;
 import com.zfinance.dto.request.profile.FileProfileDocumentDto;
 import com.zfinance.dto.request.profile.TaxProfileDocumentDto;
+import com.zfinance.dto.request.profile.UserProfileDocumentsFilter;
 import com.zfinance.dto.response.SuccessResponse;
 import com.zfinance.dto.response.profile.ProfileDocumentDto;
 import com.zfinance.dto.response.profile.ProfileDocumentsResponse;
@@ -74,9 +75,10 @@ public class ProfileDocumentController {
 	}
 
 	@PostMapping("/view")
-	public UserProfileDocumentsResponse viewAllUploadedProfileDocuments(@RequestBody Map<String, ?> payload) {
+	public UserProfileDocumentsResponse viewAllUploadedProfileDocuments(
+			@RequestBody PaginationRequestOptions<UserProfileDocumentsFilter, ?> payload) {
 		List<UserProfileDocumentDto> userProfileDocumentDtos = UserProfileDocumentMapper.INSTANCE.mapProfileDocuments(
-				profileDocumentService.viewAllUploadedProfileDocuments(payload));
+				profileDocumentService.viewAllUploadedProfileDocuments(payload.getFilter()));
 		UserProfileDocumentsResponse userProfileDocumentsResponse = new UserProfileDocumentsResponse();
 
 		userProfileDocumentsResponse.setRecords(userProfileDocumentDtos);
@@ -96,6 +98,20 @@ public class ProfileDocumentController {
 		profileDocumentService.declineDocument(documentId);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
+	}
+
+	@PostMapping("/saveProfileDocument")
+	public ProfileDocumentDto saveProfileDocument(@RequestBody ProfileDocumentDto profileDocumentDto) {
+		return ProfileDocumentMapper.INSTANCE.mapProfileDocument(profileDocumentService.saveProfileDocument(
+				ProfileDocumentMapper.INSTANCE.mapProfileDocumentDto(profileDocumentDto)));
+
+	}
+
+	@PostMapping("/saveUserProfileDocument")
+	public UserProfileDocumentDto saveUserProfileDocument(@RequestBody UserProfileDocumentDto userProfileDocumentDto) {
+		return UserProfileDocumentMapper.INSTANCE.mapUserProfileDocument(profileDocumentService.saveUserProfileDocument(
+				UserProfileDocumentMapper.INSTANCE.mapUserProfileDocumentDto(userProfileDocumentDto)));
+
 	}
 
 }

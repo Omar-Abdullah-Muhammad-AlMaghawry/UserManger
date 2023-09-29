@@ -40,4 +40,10 @@ public class OrganizationController {
 		return paginationResponse;
 	}
 
+	@PostMapping("/save")
+	public OrganizationRecord saveTransactions(@RequestBody OrganizationRecord organizationRecord) {
+		return OrganizationMapper.INSTANCE.mapOrganization(organizationService.save(OrganizationMapper.INSTANCE
+				.mapOrganizationRecord(organizationRecord)));
+	}
+
 }

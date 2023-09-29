@@ -12,4 +12,8 @@ public interface OrganizationService {
 	public List<Organization> findAllOrganizationByFilterAndSort(OrganizationsFilter organizationsFilter,
 			OrganizationsSort organizationsSort);
 
+	public Organization save(Organization organization);
+
+	public Organization findOrganizationById(String id);
+
 }

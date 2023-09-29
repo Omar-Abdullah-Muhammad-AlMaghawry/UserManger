@@ -20,6 +20,7 @@ import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
 import com.zfinance.exceptions.BusinessException;
 import com.zfinance.exceptions.DataNotFoundException;
+import com.zfinance.orm.organization.Organization;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.user.User;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
@@ -29,6 +30,7 @@ import com.zfinance.orm.userdefinedtypes.user.UserOrganization;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.repositories.user.UserRepository;
 import com.zfinance.services.external.AuthManagerService;
+import com.zfinance.services.organization.OrganizationService;
 import com.zfinance.services.profile.UserProfileService;
 
 @Service
@@ -42,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserProfileService userProfileService;
+
+	@Autowired
+	private OrganizationService organizationService;
 
 	@Autowired
 	private AuthManagerService authManagerService;
@@ -110,10 +115,18 @@ public class UserServiceImpl implements UserService {
 		// Apply sorting
 		if (usersSort != null) {
 			if (usersSort.getCreatedAt() != null) {
-				query.with(Sort.by(Sort.Order.asc("createdAt")));
+				if (usersSort.getCreatedAt().equalsIgnoreCase("asc")) {
+					query.with(Sort.by(Sort.Order.asc("created_at")));
+				} else if (usersSort.getCreatedAt().equalsIgnoreCase("desc")) {
+					query.with(Sort.by(Sort.Order.desc("created_at")));
+				}
 			}
 			if (usersSort.getActive() != null) {
-				query.with(Sort.by(Sort.Order.asc("active")));
+				if (usersSort.getActive().equalsIgnoreCase("asc")) {
+					query.with(Sort.by(Sort.Order.asc("active")));
+				} else if (usersSort.getActive().equalsIgnoreCase("desc")) {
+					query.with(Sort.by(Sort.Order.desc("active")));
+				}
 			}
 		}
 
@@ -150,7 +163,17 @@ public class UserServiceImpl implements UserService {
 		user.setBanned(false);
 		memberRecord.setRole(userCreateBody.getRole());
 		userOrganization.setId(userCreateBody.getOrganizationId());
-		userContractInfo.setPersonType(userCreateBody.getLegalType());
+		if (userCreateBody.getOrganizationId() != null) {
+			Organization organization = organizationService.findOrganizationById(userCreateBody.getOrganizationId());
+			userOrganization.setStatus(organization.getStatus());
+			userOrganization.setIdentificationStatus(organization.getIdentificationStatus());
+			userOrganization.setOrganizationStatus(organization.getStatus());
+			userOrganization.setMessage(organization.getMessage());
+			userOrganization.setName(organization.getName());
+			userOrganization.setType(organization.getType());
+			userContractInfo = organization.getContractInfo();
+			userContractInfo.setPersonType(userCreateBody.getLegalType());
+		}
 		memberRecord.setId(UUID.randomUUID().toString());
 		memberRecord.setContractInfo(userContractInfo);
 		memberRecord.setOrganization(userOrganization);
