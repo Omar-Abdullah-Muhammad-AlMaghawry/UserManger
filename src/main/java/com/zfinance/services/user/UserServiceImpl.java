@@ -26,6 +26,7 @@ import com.zfinance.orm.userdefinedtypes.user.UserContact;
 import com.zfinance.orm.userdefinedtypes.user.UserContractInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
 import com.zfinance.orm.userdefinedtypes.user.UserOrganization;
+import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.repositories.user.UserRepository;
 import com.zfinance.services.external.AuthManagerService;
 import com.zfinance.services.profile.UserProfileService;
@@ -168,6 +169,9 @@ public class UserServiceImpl implements UserService {
 		UserProfile userProfile = new UserProfile();
 		userProfile.setId(UUID.randomUUID().toString());
 		userProfile.setUserId(user.getId());
+		userProfile.setContact(userContact);
+		UserSecurity userSecurity = new UserSecurity();
+		userProfile.setSecurity(userSecurity);
 
 		userProfileService.saveUserProfile(userProfile);
 
