@@ -46,7 +46,7 @@ public class UserProfileController {
 
 	@GetMapping("/{userId}")
 	public GetUserInfoResponse getUserProfile(@PathVariable String userId) {
-		UserProfile userProfile = userProfileService.getUserProfile(userId);
+		UserProfile userProfile = userProfileService.getUserProfileByUserId(userId);
 		GetUserInfoResponse getUserInfoResponse = new GetUserInfoResponse();
 		getUserInfoResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
 		return getUserInfoResponse;
@@ -104,8 +104,8 @@ public class UserProfileController {
 	@GetMapping("/my")
 	public MyUserProfileResponse getUserProfile() {
 		String token = tokenAuthorizationFilter.getToken();
-		UserRecord user = authManagerService.getUserIdFromToken(token);
-		UserProfile userProfile = userProfileService.getUserProfile(user.getId());
+		UserRecord user = authManagerService.getUserFromToken(token);
+		UserProfile userProfile = userProfileService.getUserProfileByUserId(user.getId());
 		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
 		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
 
@@ -115,7 +115,7 @@ public class UserProfileController {
 	@PatchMapping("/my/password")
 	public SuccessResponse<Void> declineIdentification(@RequestBody NewCredentials newCredentials) {
 		String token = tokenAuthorizationFilter.getToken();
-		UserRecord user = authManagerService.getUserIdFromToken(token);
+		UserRecord user = authManagerService.getUserFromToken(token);
 		userService.updatePassword(user.getId(), newCredentials);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
@@ -124,7 +124,7 @@ public class UserProfileController {
 	@PatchMapping("/my/person")
 	public MyUserProfileResponse updatePersonInformation(@RequestBody MyPersonDto options) {
 		String token = tokenAuthorizationFilter.getToken();
-		UserRecord user = authManagerService.getUserIdFromToken(token);
+		UserRecord user = authManagerService.getUserFromToken(token);
 		UserProfile userProfile = userProfileService.updateUserProfileInfo(user.getId(), options.getPerson());
 		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
 		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
@@ -134,7 +134,7 @@ public class UserProfileController {
 	@PostMapping("/my/contact")
 	public MyUserProfileResponse updateMyLogin(@RequestBody String login) {
 		String token = tokenAuthorizationFilter.getToken();
-		UserRecord user = authManagerService.getUserIdFromToken(token);
+		UserRecord user = authManagerService.getUserFromToken(token);
 		UserProfile userProfile = userProfileService.updateUserLogin(user.getId(), login);
 		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
 		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
@@ -144,7 +144,7 @@ public class UserProfileController {
 	@PatchMapping("/my/security-settings")
 	public MyUserProfileResponse updateMySecurity(@RequestBody UserSecurity security) {
 		String token = tokenAuthorizationFilter.getToken();
-		UserRecord user = authManagerService.getUserIdFromToken(token);
+		UserRecord user = authManagerService.getUserFromToken(token);
 		UserProfile userProfile = userProfileService.updateUserSecurity(user.getId(), security);
 		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
 		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));

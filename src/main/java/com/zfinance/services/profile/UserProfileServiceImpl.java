@@ -19,7 +19,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private UserProfileRepository userProfileRepository;
 
 	@Override
-	public UserProfile getUserProfile(String userId) {
+	public UserProfile getUserProfileByUserId(String userId) {
 		return userProfileRepository.findByUserId(userId);
 	}
 

@@ -3,6 +3,7 @@ package com.zfinance.orm.actions;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -24,5 +25,8 @@ public class Actions {
 
 	@Field("objects_of_action")
 	private List<Action> objectsOfAction;
+
+	@Transient
+	public static final String SEQUENCE_NAME = "actions_sequence";
 
 }

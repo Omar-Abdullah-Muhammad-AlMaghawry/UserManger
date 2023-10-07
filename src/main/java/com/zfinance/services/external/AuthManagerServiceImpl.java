@@ -40,13 +40,13 @@ public class AuthManagerServiceImpl implements AuthManagerService {
 	}
 
 	@Override
-	public UserRecord getUserIdFromToken(String token) {
+	public UserRecord getUserFromToken(String token) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Authorization", tokenAuthorizationFilter.getToken());
 		HttpEntity<Void> entity = new HttpEntity<>(null, headers);
 
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(AUTH_MANAGER_URL + "/auth/getUserIdFromToken")
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(AUTH_MANAGER_URL + "/auth/getUserFromToken")
 				.queryParam("token", token);
 
 		ResponseEntity<UserRecord> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,

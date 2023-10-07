@@ -8,7 +8,7 @@ import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 
 public interface UserProfileService {
 
-	public UserProfile getUserProfile(String userId);
+	public UserProfile getUserProfileByUserId(String userId);
 
 	public UserProfile updateUserProfileInfo(String userId, UserInfo person);
 

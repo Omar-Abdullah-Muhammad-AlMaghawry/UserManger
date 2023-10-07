@@ -29,6 +29,7 @@ import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
 import com.zfinance.orm.userdefinedtypes.user.UserOrganization;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.repositories.user.UserRepository;
+import com.zfinance.services.database.sequence.SequenceGeneratorService;
 import com.zfinance.services.external.AuthManagerService;
 import com.zfinance.services.organization.OrganizationService;
 import com.zfinance.services.profile.UserProfileService;
@@ -53,6 +54,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private SequenceGeneratorService sequenceGeneratorService;
 
 	@Override
 	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort) {
@@ -156,7 +160,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			userContact.setPhoneNumber(emailOrPhoneNember);
 		}
-		user.setId(UUID.randomUUID().toString());
+		user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
 		user.setContact(userContact);
 		user.setCreatedAt((new Date()).toString());
 		user.setActive(true);
@@ -190,7 +194,7 @@ public class UserServiceImpl implements UserService {
 //		user = userRepository.save(user);
 
 		UserProfile userProfile = new UserProfile();
-		userProfile.setId(UUID.randomUUID().toString());
+		userProfile.setId(sequenceGeneratorService.generateSequence(UserProfile.SEQUENCE_NAME));
 		userProfile.setUserId(user.getId());
 		userProfile.setContact(userContact);
 		UserSecurity userSecurity = new UserSecurity();
@@ -251,6 +255,26 @@ public class UserServiceImpl implements UserService {
 		} else {
 			throw new BusinessException("error_invalidPassword");
 		}
+	}
+
+	@Override
+	public User saveUser(User user) {
+
+		if (user != null) {
+			if (user.getId() != null) {
+				User userToBeUpdated = getUserById(user.getId());
+				user.setEmail(userToBeUpdated.getEmail());
+				user.setEncPassword(userToBeUpdated.getEncPassword());
+			}
+			// TODO: NEED TO BE CHECKED THE PERSON TYPE
+			if (user.getMembers() != null && !user.getMembers().isEmpty() && user.getMembers().get(0)
+					.getContractInfo() != null && user.getMembers().get(0).getContractInfo().getPersonType() != null) {
+				UserProfile userProfile = userProfileService.getUserProfileByUserId(user.getId());
+				userProfile.setType(user.getMembers().get(0).getContractInfo().getPersonType());
+				userProfileService.saveUserProfile(userProfile);
+			}
+		}
+		return userRepository.save(user);
 	}
 
 }

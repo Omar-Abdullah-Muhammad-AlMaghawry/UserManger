@@ -26,4 +26,6 @@ public interface UserService {
 
 	public void updatePassword(String userId, NewCredentials userPassword);
 
+	public User saveUser(User user);
+
 }

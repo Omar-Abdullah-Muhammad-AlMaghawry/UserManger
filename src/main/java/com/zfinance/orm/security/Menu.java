@@ -1,6 +1,7 @@
 package com.zfinance.orm.security;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -38,5 +39,8 @@ public class Menu {
 
 	@Field("has_children")
 	private Boolean hasChildren;
+
+	@Transient
+	public static final String SEQUENCE_NAME = "menu_sequence";
 
 }

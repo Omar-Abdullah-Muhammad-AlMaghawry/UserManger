@@ -7,6 +7,6 @@ public interface AuthManagerService {
 
 	public void registerUser(User user);
 
-	public UserRecord getUserIdFromToken(String token);
+	public UserRecord getUserFromToken(String token);
 
 }

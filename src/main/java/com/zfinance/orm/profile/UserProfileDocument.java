@@ -1,6 +1,7 @@
 package com.zfinance.orm.profile;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -37,4 +38,8 @@ public class UserProfileDocument {
 
 	@Field("updated_at")
 	private String updatedAt;
+
+	@Transient
+	public static final String SEQUENCE_NAME = "user_profile_document_sequence";
+
 }

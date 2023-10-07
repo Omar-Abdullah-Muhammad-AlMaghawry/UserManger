@@ -81,4 +81,16 @@ public class UserController {
 		return successResponse;
 	}
 
+	@PostMapping("/searchUsers")
+	public List<UserRecord> searchUsers(@RequestBody UsersFilter usersFilter) {
+		List<User> users = userService.searchUsers(usersFilter, null);
+		return UserMapper.INSTANCE.mapUsers(users);
+	}
+
+	@PostMapping("/saveUser")
+	public UserRecord saveUser(@RequestBody UserRecord userRecord) {
+		return UserMapper.INSTANCE.mapUser(userService.saveUser(UserMapper.INSTANCE.mapUserRecord(userRecord)));
+
+	}
+
 }
