@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zfinance.dto.request.PaginationRequestOptions;
@@ -44,6 +46,11 @@ public class OrganizationController {
 	public OrganizationRecord saveTransactions(@RequestBody OrganizationRecord organizationRecord) {
 		return OrganizationMapper.INSTANCE.mapOrganization(organizationService.save(OrganizationMapper.INSTANCE
 				.mapOrganizationRecord(organizationRecord)));
+	}
+
+	@GetMapping("/getOrganizationById")
+	public OrganizationRecord getOrganizationById(@RequestParam String id) {
+		return OrganizationMapper.INSTANCE.mapOrganization(organizationService.findOrganizationById(id));
 	}
 
 }
