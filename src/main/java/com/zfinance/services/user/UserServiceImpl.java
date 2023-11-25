@@ -18,6 +18,7 @@ import com.zfinance.dto.request.profile.NewCredentials;
 import com.zfinance.dto.request.user.UserCreateBody;
 import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
+import com.zfinance.dto.response.user.UserContract;
 import com.zfinance.exceptions.BusinessException;
 import com.zfinance.exceptions.DataNotFoundException;
 import com.zfinance.orm.organization.Organization;
@@ -135,6 +136,32 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return mongoTemplate.find(query, User.class);
+	}
+
+	@Override
+	public List<UserContract> countUsersByContract(String role) {
+		// Add match operation to filter by role
+		// Add match operation to filter by role
+//		MatchOperation matchOperation = Aggregation.match(Criteria.where("members.role").is(role));
+//
+////		@Aggregation(pipeline = {
+////	            "{$group: { _id: \"$groupByField\", total: { $sum: \"$someValue\" } }}"
+////	    })
+////	    List<YourResultClass> groupByFieldTotal();
+//		// Unwind members array
+//		UnwindOperation unwindOperation = Aggregation.unwind("members");
+//
+//		// Group by contract ID and name
+//		GroupOperation groupOperation = Aggregation.group("members.contractInfo.id", "members.contractInfo.name")
+//				.count().as("userCount");
+//
+//		// Aggregation pipeline
+//		Aggregation aggregation = Aggregation.newAggregation(matchOperation, unwindOperation, groupOperation);
+//
+//		// Use $getField to access fields with dots in their names
+//		mongoTemplate.aggregate(aggregation, "zfin_user", Object.class);
+
+		return userRepository.groupByFieldTotal();
 	}
 
 	@Override

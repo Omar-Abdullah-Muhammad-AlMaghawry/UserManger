@@ -45,15 +45,6 @@ public class User {
 	@Field("ban_expiry_date")
 	private String banExpiryDate;
 
-//	@Field("role")
-//	private String role;
-//
-//	@Field("organization_id")
-//	private String organizationId;
-//
-//	@Field("legal_type")
-//	private String legalType;
-
 	@Field("contact")
 	private UserContact contact;
 

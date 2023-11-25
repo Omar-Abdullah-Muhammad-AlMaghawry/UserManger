@@ -28,4 +28,6 @@ public interface UserProfileService {
 
 	public void resetIdentification(String id);
 
+	public void verifyUserProfileEmail(String userId);
+
 }

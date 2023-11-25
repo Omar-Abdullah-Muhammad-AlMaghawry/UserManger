@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zfinance.config.filters.TokenAuthorizationFilter;
 import com.zfinance.dto.request.profile.MyPersonDto;
 import com.zfinance.dto.request.profile.NewCredentials;
+import com.zfinance.dto.request.user.UserLogin;
 import com.zfinance.dto.response.SuccessResponse;
 import com.zfinance.dto.response.profile.GetUserInfoResponse;
 import com.zfinance.dto.response.profile.MyUserProfileResponse;
@@ -74,8 +76,8 @@ public class UserProfileController {
 	}
 
 	@PatchMapping("/{userId}/contact")
-	public SuccessResponse<Void> updateUserLogin(@PathVariable String userId, @RequestBody String login) {
-		userProfileService.updateUserLogin(userId, login);
+	public SuccessResponse<Void> updateUserLogin(@PathVariable String userId, @RequestBody UserLogin userLogin) {
+		userProfileService.updateUserLogin(userId, userLogin.getLogin());
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}
@@ -149,6 +151,11 @@ public class UserProfileController {
 		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
 		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
 		return myUserProfileResponse;
+	}
+
+	@PostMapping("/verifyUserProfileEmail")
+	public void verifyUserProfileEmail(@RequestParam String userId) {
+		userProfileService.verifyUserProfileEmail(userId);
 	}
 
 }

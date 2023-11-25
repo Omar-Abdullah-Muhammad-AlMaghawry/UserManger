@@ -5,18 +5,23 @@ import org.springframework.stereotype.Service;
 
 import com.zfinance.enums.StatusEnum;
 import com.zfinance.orm.profile.UserProfile;
+import com.zfinance.orm.user.User;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.repositories.profile.UserProfileRepository;
+import com.zfinance.repositories.user.UserRepository;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
 	private UserProfileRepository userProfileRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public UserProfile getUserProfileByUserId(String userId) {
@@ -48,14 +53,20 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfile updateUserLogin(String userId, String login) {
 		// TODO: need to be completed
 
-//		User user = userService.getUserById(userId);
+		User user = userRepository.findById(userId).get();
 		UserProfile userProfile = userProfileRepository.findByUserId(userId);
 		UserContact userContact = userProfile.getContact();
 
-		if (userContact.getEmail() != null)
+		if (login.contains("@")) {
+			user.setEmail(login);
 			userContact.setEmail(login);
+		} else {
+			userContact.setPhoneNumber(login);
+		}
+		user.setContact(userContact);
 		userProfile.setContact(userContact);
-//		user.setContact(userContact);
+
+		userRepository.save(user);
 		// TODO: need to verify the email, then save it
 
 		return userProfileRepository.save(userProfile);
@@ -98,4 +109,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	}
 
+	@Override
+	public void verifyUserProfileEmail(String userId) {
+		UserProfile userProfile = userProfileRepository.findByUserId(userId);
+		UserContact userContact = userProfile.getContact();
+		userContact.setEmailVerified(true);
+		userProfile.setContact(userContact);
+		userProfileRepository.save(userProfile);
+	}
 }
