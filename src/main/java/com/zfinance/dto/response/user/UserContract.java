@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserContract {
-	private String id;
-//	private String contractName;
+
+	private String contractId;
+	private String contractName;
 	private Long userCount;
+
 }

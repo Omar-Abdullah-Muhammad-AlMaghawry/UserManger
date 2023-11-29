@@ -161,7 +161,9 @@ public class UserServiceImpl implements UserService {
 //		// Use $getField to access fields with dots in their names
 //		mongoTemplate.aggregate(aggregation, "zfin_user", Object.class);
 
-		return userRepository.groupByFieldTotal();
+		List<UserContract> userContracts = userRepository.groupByFieldTotal();
+
+		return userContracts;
 	}
 
 	@Override
