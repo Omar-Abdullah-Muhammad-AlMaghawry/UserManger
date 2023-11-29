@@ -2,6 +2,7 @@ package com.zfinance.orm.user;
 
 import java.util.List;
 
+import com.zfinance.orm.role.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -38,6 +39,9 @@ public class User {
 
 	@Field("active")
 	private Boolean active;
+
+	@Field("user_role")
+	private Role userRole;
 
 	@Field("banned")
 	private Boolean banned;
