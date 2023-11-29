@@ -9,9 +9,14 @@ import com.zfinance.dto.response.user.UserContract;
 import com.zfinance.orm.user.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
+
 //	@Aggregation(pipeline = { "{$unwind: \"$members\"}",
-//			"{$group: { contractId:\"$members.contractInfo.id\", \"contractName\":\"$members.contractInfo.name\", userCount: { $sum: \"1\" } }}" })
-	@Aggregation(pipeline = { "{$group: { _id:\"$id\", userCount: { $sum: \"1\" } }}" })
+//			"{$group: { _id: { contractId: \"$members.contractInfo.id\", contractName: \"$members.contractInfo.name\" }, userCount: { $sum: 1 }, contractIds: { $addToSet: \"$members.contractInfo.id\" } }}" })
+	@Aggregation(pipeline = { "{$unwind: \"$members\"}",
+			"{$group: { _id: { contractId: \"$members.contractInfo.id\", contractName: \"$members.contractInfo.name\" }, userCount: { $sum: 1 } }}" })
 	List<UserContract> groupByFieldTotal();
+
+	// @Aggregation(pipeline = { "{$group: { _id:\"$id\", userCount: { $sum: \"1\" }
+	// }}" })
 
 }
