@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.zfinance.orm.role.Role;
+import com.zfinance.repositories.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -43,6 +45,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private UserProfileService userProfileService;
@@ -180,7 +185,7 @@ public class UserServiceImpl implements UserService {
 		UserMemberRecord memberRecord = new UserMemberRecord();
 		UserOrganization userOrganization = new UserOrganization();
 		UserContractInfo userContractInfo = new UserContractInfo();
-
+		Role role=roleRepository.findById(userCreateBody.getRole()).get();
 		List<UserMemberRecord> memberRecords = new ArrayList<UserMemberRecord>();
 
 		String emailOrPhoneNember = userCreateBody.getLogin();
@@ -191,11 +196,13 @@ public class UserServiceImpl implements UserService {
 		} else {
 			userContact.setPhoneNumber(emailOrPhoneNember);
 		}
+
 		user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
 		user.setContact(userContact);
 		user.setCreatedAt((new Date()).toString());
 		user.setActive(true);
 		user.setBanned(false);
+		user.setUserRole(role);
 		memberRecord.setRole(userCreateBody.getRole());
 		userOrganization.setId(userCreateBody.getOrganizationId());
 		if (userCreateBody.getOrganizationId() != null) {

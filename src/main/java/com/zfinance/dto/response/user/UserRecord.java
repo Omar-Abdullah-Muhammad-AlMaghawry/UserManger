@@ -2,6 +2,7 @@ package com.zfinance.dto.response.user;
 
 import java.util.List;
 
+import com.zfinance.orm.role.Role;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
 import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
 
