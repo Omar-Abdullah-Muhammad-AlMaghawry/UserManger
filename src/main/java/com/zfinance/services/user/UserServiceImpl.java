@@ -1,13 +1,14 @@
 package com.zfinance.services.user;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import com.zfinance.orm.role.Role;
-import com.zfinance.repositories.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -25,12 +26,14 @@ import com.zfinance.exceptions.BusinessException;
 import com.zfinance.exceptions.DataNotFoundException;
 import com.zfinance.orm.organization.Organization;
 import com.zfinance.orm.profile.UserProfile;
+import com.zfinance.orm.role.Role;
 import com.zfinance.orm.user.User;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
 import com.zfinance.orm.userdefinedtypes.user.UserContractInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
 import com.zfinance.orm.userdefinedtypes.user.UserOrganization;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
+import com.zfinance.repositories.role.RoleRepository;
 import com.zfinance.repositories.user.UserRepository;
 import com.zfinance.services.database.sequence.SequenceGeneratorService;
 import com.zfinance.services.external.AuthManagerService;
@@ -168,9 +171,39 @@ public class UserServiceImpl implements UserService {
 
 		// mongo population to change
 
-		List<UserContract> userContracts = userRepository.groupByFieldTotal();
+		UsersFilter usersFilter = new UsersFilter();
+		usersFilter.setRoles(Arrays.asList(role));
+		List<User> users = searchUsers(usersFilter, null);
+
+		List<UserContract> userContracts = aggregateUsers(users);
 
 		return userContracts;
+	}
+
+	private List<UserContract> aggregateUsers(List<User> userList) {
+		Map<String, Map<String, Long>> result = userList.stream().flatMap(user -> user.getMembers().stream()).collect(
+				Collectors.groupingBy(userMemberRecord -> userMemberRecord.getContractInfo().getId() != null
+						? userMemberRecord.getContractInfo().getId()
+						: "null", Collectors.groupingBy(userMemberRecord -> userMemberRecord.getContractInfo()
+								.getName() != null ? userMemberRecord.getContractInfo().getName() : "", Collectors
+										.counting())));
+
+		return result.entrySet().stream().map(entry -> {
+			String contractId = entry.getKey();
+			Map<String, Long> contractNameCounts = entry.getValue();
+
+			return contractNameCounts.entrySet().stream().map(nameCountEntry -> {
+				String contractName = nameCountEntry.getKey();
+				Long userCount = nameCountEntry.getValue();
+
+				UserContract userContract = new UserContract();
+				userContract.setContractId(contractId);
+				userContract.setContractName(contractName);
+				userContract.setUserCount(userCount);
+
+				return userContract;
+			}).collect(Collectors.toList());
+		}).flatMap(List::stream).collect(Collectors.toList());
 	}
 
 	@Override
@@ -185,7 +218,7 @@ public class UserServiceImpl implements UserService {
 		UserMemberRecord memberRecord = new UserMemberRecord();
 		UserOrganization userOrganization = new UserOrganization();
 		UserContractInfo userContractInfo = new UserContractInfo();
-		Role role=roleRepository.findById(userCreateBody.getRole()).get();
+		Role role = roleRepository.findById(userCreateBody.getRole()).get();
 		List<UserMemberRecord> memberRecords = new ArrayList<UserMemberRecord>();
 
 		String emailOrPhoneNember = userCreateBody.getLogin();

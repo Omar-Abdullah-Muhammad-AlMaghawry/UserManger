@@ -1,15 +1,14 @@
 package com.zfinance.orm.role;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
 
 @Data
 @AllArgsConstructor
@@ -17,16 +16,16 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @Document("zfin_Role")
 public class Role {
-    @Id
-    @Field("id")
-    private String id;
+	@Id
+	@Field("id")
+	private String id;
 
-    @Field("name")
-    private String name;
+	@Field("name")
+	private String name;
 
-    @Field("description")
-    private String description;
+	@Field("description")
+	private String description;
 
-    @Transient
-    public static final String SEQUENCE_NAME = "Role_sequence";
+	@Transient
+	public static final String SEQUENCE_NAME = "Role_sequence";
 }
