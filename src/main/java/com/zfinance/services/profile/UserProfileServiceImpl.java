@@ -9,6 +9,7 @@ import com.zfinance.orm.user.User;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
+import com.zfinance.orm.userdefinedtypes.user.UserIdentiy;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.repositories.profile.UserProfileRepository;
@@ -46,6 +47,22 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfile updateUserBusiness(String userId, UserBusiness data) {
 		UserProfile userProfile = userProfileRepository.findByUserId(userId);
 		userProfile.setBusiness(data);
+		return userProfileRepository.save(userProfile);
+	}
+
+	@Override
+	public UserProfile updateUserIdentiy(String userId, UserIdentiy identiy) {
+		UserProfile userProfile = userProfileRepository.findByUserId(userId);
+		userProfile.setIdentiy(identiy);
+		return userProfileRepository.save(userProfile);
+	}
+
+	@Override
+	public UserProfile updateUserProfile(String userId, UserInfo person, UserAddress address, UserIdentiy identiy) {
+		UserProfile userProfile = userProfileRepository.findByUserId(userId);
+		userProfile.setPerson(person);
+		userProfile.setAddress(address);
+		userProfile.setIdentiy(identiy);
 		return userProfileRepository.save(userProfile);
 	}
 

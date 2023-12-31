@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zfinance.config.filters.TokenAuthorizationFilter;
 import com.zfinance.dto.request.profile.MyPersonDto;
 import com.zfinance.dto.request.profile.NewCredentials;
+import com.zfinance.dto.request.profile.UserProfileUpdate;
 import com.zfinance.dto.request.user.UserLogin;
 import com.zfinance.dto.response.SuccessResponse;
 import com.zfinance.dto.response.profile.GetUserInfoResponse;
@@ -23,6 +24,7 @@ import com.zfinance.mapper.UserProfileMapper;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
+import com.zfinance.orm.userdefinedtypes.user.UserIdentiy;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.services.external.AuthManagerService;
@@ -71,6 +73,22 @@ public class UserProfileController {
 	@PatchMapping("/{userId}/business")
 	public SuccessResponse<Void> updateUserBusiness(@PathVariable String userId, @RequestBody UserBusiness data) {
 		userProfileService.updateUserBusiness(userId, data);
+		SuccessResponse<Void> successResponse = new SuccessResponse<>();
+		return successResponse;
+	}
+
+	@PatchMapping("/{userId}/identiy")
+	public SuccessResponse<Void> updateUserIdentiy(@PathVariable String userId, @RequestBody UserIdentiy identiy) {
+		userProfileService.updateUserIdentiy(userId, identiy);
+		SuccessResponse<Void> successResponse = new SuccessResponse<>();
+		return successResponse;
+	}
+
+	@PatchMapping("/{userId}/all")
+	public SuccessResponse<Void> updateUserProfile(@PathVariable String userId,
+			@RequestBody UserProfileUpdate userProfileUpdate) {
+		userProfileService.updateUserProfile(userId, userProfileUpdate.getPerson(), userProfileUpdate.getAddress(),
+				userProfileUpdate.getIdentiy());
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}
