@@ -3,7 +3,7 @@ package com.zfinance.dto.response.profile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
-import com.zfinance.orm.userdefinedtypes.user.UserIdentiy;
+import com.zfinance.orm.userdefinedtypes.user.UserIdentity;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 
@@ -24,7 +24,7 @@ public class UserProfileDto {
 	private String status;
 	private UserBusiness business;
 	private UserAddress address;
-	private UserIdentiy identiy;
+	private UserIdentity identity;
 	private UserSecurity security;
 
 }

@@ -3,7 +3,7 @@ package com.zfinance.services.profile;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
-import com.zfinance.orm.userdefinedtypes.user.UserIdentiy;
+import com.zfinance.orm.userdefinedtypes.user.UserIdentity;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 
@@ -17,9 +17,9 @@ public interface UserProfileService {
 
 	public UserProfile updateUserBusiness(String userId, UserBusiness data);
 
-	public UserProfile updateUserIdentiy(String userId, UserIdentiy identiy);
+	public UserProfile updateUserIdentiy(String userId, UserIdentity identity);
 
-	public UserProfile updateUserProfile(String userId, UserInfo person, UserAddress address, UserIdentiy identiy);
+	public UserProfile updateUserProfile(String userId, UserInfo person, UserAddress address, UserIdentity identity);
 
 	public UserProfile updateUserLogin(String userId, String login);
 

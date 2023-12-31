@@ -24,7 +24,7 @@ import com.zfinance.mapper.UserProfileMapper;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
-import com.zfinance.orm.userdefinedtypes.user.UserIdentiy;
+import com.zfinance.orm.userdefinedtypes.user.UserIdentity;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.services.external.AuthManagerService;
@@ -77,9 +77,9 @@ public class UserProfileController {
 		return successResponse;
 	}
 
-	@PatchMapping("/{userId}/identiy")
-	public SuccessResponse<Void> updateUserIdentiy(@PathVariable String userId, @RequestBody UserIdentiy identiy) {
-		userProfileService.updateUserIdentiy(userId, identiy);
+	@PatchMapping("/{userId}/identity")
+	public SuccessResponse<Void> updateUserIdentiy(@PathVariable String userId, @RequestBody UserIdentity identity) {
+		userProfileService.updateUserIdentiy(userId, identity);
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}
@@ -88,7 +88,7 @@ public class UserProfileController {
 	public SuccessResponse<Void> updateUserProfile(@PathVariable String userId,
 			@RequestBody UserProfileUpdate userProfileUpdate) {
 		userProfileService.updateUserProfile(userId, userProfileUpdate.getPerson(), userProfileUpdate.getAddress(),
-				userProfileUpdate.getIdentiy());
+				userProfileUpdate.getIdentity());
 		SuccessResponse<Void> successResponse = new SuccessResponse<>();
 		return successResponse;
 	}

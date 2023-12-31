@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class UserIdentiy {
+public class UserIdentity {
 
 	@Field("issuing_country")
 	private String issuingCountry;
