@@ -3,6 +3,7 @@ package com.zfinance.services.profile;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
+import com.zfinance.orm.userdefinedtypes.user.UserGeneralSetting;
 import com.zfinance.orm.userdefinedtypes.user.UserIdentity;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
@@ -34,5 +35,7 @@ public interface UserProfileService {
 	public void resetIdentification(String id);
 
 	public void verifyUserProfileEmail(String userId);
+
+	public UserProfile updateUserGeneralSetting(String userId, UserGeneralSetting generalSetting);
 
 }

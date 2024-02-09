@@ -9,6 +9,7 @@ import com.zfinance.orm.user.User;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
+import com.zfinance.orm.userdefinedtypes.user.UserGeneralSetting;
 import com.zfinance.orm.userdefinedtypes.user.UserIdentity;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
@@ -133,5 +134,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userContact.setEmailVerified(true);
 		userProfile.setContact(userContact);
 		userProfileRepository.save(userProfile);
+	}
+
+	@Override
+	public UserProfile updateUserGeneralSetting(String userId, UserGeneralSetting generalSetting) {
+		UserProfile userProfile = userProfileRepository.findByUserId(userId);
+		userProfile.setGeneralSetting(generalSetting);
+		return userProfileRepository.save(userProfile);
 	}
 }

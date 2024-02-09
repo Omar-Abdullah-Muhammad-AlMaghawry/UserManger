@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
+import com.zfinance.orm.userdefinedtypes.user.UserGeneralSetting;
 import com.zfinance.orm.userdefinedtypes.user.UserIdentity;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
@@ -52,6 +53,9 @@ public class UserProfile {
 
 	@Field("security")
 	private UserSecurity security;
+
+	@Field("general_setting")
+	private UserGeneralSetting generalSetting;
 
 	@Transient
 	public static final String SEQUENCE_NAME = "user_profile_sequence";

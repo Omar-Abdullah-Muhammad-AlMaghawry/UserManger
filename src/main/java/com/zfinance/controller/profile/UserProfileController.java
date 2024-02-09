@@ -24,6 +24,7 @@ import com.zfinance.mapper.UserProfileMapper;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.userdefinedtypes.user.UserAddress;
 import com.zfinance.orm.userdefinedtypes.user.UserBusiness;
+import com.zfinance.orm.userdefinedtypes.user.UserGeneralSetting;
 import com.zfinance.orm.userdefinedtypes.user.UserIdentity;
 import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
@@ -107,6 +108,14 @@ public class UserProfileController {
 		return successResponse;
 	}
 
+	@PatchMapping("/{userId}/general-settings")
+	public SuccessResponse<Void> updateUserGeneralSettings(@PathVariable String userId,
+			@RequestBody UserGeneralSetting generalSetting) {
+		userProfileService.updateUserGeneralSetting(userId, generalSetting);
+		SuccessResponse<Void> successResponse = new SuccessResponse<>();
+		return successResponse;
+	}
+
 	@PostMapping("/{id}/approve")
 	public SuccessResponse<Void> approveIdentification(@PathVariable String id) {
 		userProfileService.approveIdentification(id);
@@ -166,6 +175,16 @@ public class UserProfileController {
 		String token = tokenAuthorizationFilter.getToken();
 		UserRecord user = authManagerService.getUserFromToken(token);
 		UserProfile userProfile = userProfileService.updateUserSecurity(user.getId(), security);
+		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
+		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
+		return myUserProfileResponse;
+	}
+
+	@PatchMapping("/my/general-settings")
+	public MyUserProfileResponse updateMyGeneralSetting(@RequestBody UserGeneralSetting generalSetting) {
+		String token = tokenAuthorizationFilter.getToken();
+		UserRecord user = authManagerService.getUserFromToken(token);
+		UserProfile userProfile = userProfileService.updateUserGeneralSetting(user.getId(), generalSetting);
 		MyUserProfileResponse myUserProfileResponse = new MyUserProfileResponse();
 		myUserProfileResponse.setProfile(UserProfileMapper.INSTANCE.mapUserProfile(userProfile));
 		return myUserProfileResponse;
