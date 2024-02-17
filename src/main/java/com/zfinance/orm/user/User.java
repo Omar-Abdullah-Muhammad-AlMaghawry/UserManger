@@ -2,12 +2,13 @@ package com.zfinance.orm.user;
 
 import java.util.List;
 
-import com.zfinance.orm.role.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zfinance.orm.role.Role;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
 import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
 
@@ -33,6 +34,13 @@ public class User {
 
 	@Field("enc_password")
 	private String encPassword;
+
+	@Field("mfa_enabled")
+	boolean mfaEnabled;
+
+	@JsonIgnore
+	@Field("secret_key")
+	private String secretKey;
 
 	@Field("created_at")
 	private String createdAt;
