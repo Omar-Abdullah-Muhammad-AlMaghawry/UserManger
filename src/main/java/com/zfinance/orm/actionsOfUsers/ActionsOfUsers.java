@@ -1,4 +1,4 @@
-package com.zfinance.orm.actions;
+package com.zfinance.orm.actionsOfUsers;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;

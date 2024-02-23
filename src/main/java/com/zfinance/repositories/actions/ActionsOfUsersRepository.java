@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import com.zfinance.dto.request.actions.ActionsOfUsersFilter;
 import com.zfinance.dto.request.actions.ActionsOfUsersSort;
-import com.zfinance.orm.actions.ActionsOfUsers;
+import com.zfinance.orm.actionsOfUsers.ActionsOfUsers;
 
 public interface ActionsOfUsersRepository extends MongoRepository<ActionsOfUsers, String> {
 
