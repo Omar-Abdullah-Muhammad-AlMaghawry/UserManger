@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.zfinance.dto.request.actions.ActionsOfUsersFilter;
 import com.zfinance.dto.request.actions.ActionsOfUsersSort;
-import com.zfinance.orm.actions.Actions;
-import com.zfinance.orm.actions.ActionsOfUsers;
+import com.zfinance.orm.actionsOfUsers.Actions;
+import com.zfinance.orm.actionsOfUsers.ActionsOfUsers;
 import com.zfinance.repositories.actions.ActionsOfUsersRepository;
 import com.zfinance.repositories.actions.ActionsRepository;
 

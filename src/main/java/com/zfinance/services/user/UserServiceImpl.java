@@ -22,6 +22,7 @@ import com.zfinance.dto.request.user.UserCreateBody;
 import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
 import com.zfinance.dto.response.user.UserContract;
+import com.zfinance.enums.RoleEnum;
 import com.zfinance.exceptions.BusinessException;
 import com.zfinance.exceptions.DataNotFoundException;
 import com.zfinance.orm.organization.Organization;
@@ -236,6 +237,11 @@ public class UserServiceImpl implements UserService {
 		user.setActive(true);
 		user.setBanned(false);
 		user.setUserRole(role);
+
+		if (userCreateBody.getRole().equals(RoleEnum.MERCHANT.getCode())) {
+			user.setPartnerId(user.getId());
+		}
+
 		memberRecord.setRole(userCreateBody.getRole());
 		userOrganization.setId(userCreateBody.getOrganizationId());
 		if (userCreateBody.getOrganizationId() != null) {

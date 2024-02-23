@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.zfinance.dto.request.actions.ActionsOfUsersFilter;
 import com.zfinance.dto.request.actions.ActionsOfUsersSort;
-import com.zfinance.orm.actions.Actions;
-import com.zfinance.orm.actions.ActionsOfUsers;
+import com.zfinance.orm.actionsOfUsers.Actions;
+import com.zfinance.orm.actionsOfUsers.ActionsOfUsers;
 
 public interface ActionsService {
 

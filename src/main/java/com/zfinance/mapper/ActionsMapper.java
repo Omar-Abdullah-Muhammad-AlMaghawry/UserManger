@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 
 import com.zfinance.dto.response.actions.ActionsRecord;
-import com.zfinance.orm.actions.Actions;
+import com.zfinance.orm.actionsOfUsers.Actions;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ActionsMapper {

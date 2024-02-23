@@ -20,8 +20,8 @@ import com.zfinance.dto.response.actions.ActionsRecord;
 import com.zfinance.dto.response.actions.ActionsResponse;
 import com.zfinance.mapper.ActionsMapper;
 import com.zfinance.mapper.ActionsOfUsersMapper;
-import com.zfinance.orm.actions.Actions;
-import com.zfinance.orm.actions.ActionsOfUsers;
+import com.zfinance.orm.actionsOfUsers.Actions;
+import com.zfinance.orm.actionsOfUsers.ActionsOfUsers;
 import com.zfinance.services.actions.ActionsService;
 
 @RestController
