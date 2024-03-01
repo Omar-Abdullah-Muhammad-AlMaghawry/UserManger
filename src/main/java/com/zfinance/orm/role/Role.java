@@ -20,6 +20,9 @@ public class Role {
 	@Field("id")
 	private String id;
 
+	@Field("code")
+	private String code;
+
 	@Field("name")
 	private String name;
 

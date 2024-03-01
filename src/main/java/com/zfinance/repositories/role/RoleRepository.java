@@ -8,4 +8,6 @@ import com.zfinance.orm.role.Role;
 @Repository
 public interface RoleRepository extends MongoRepository<Role, String> {
 	public Role findRoleByName(String name);
+
+	public Role findByCode(String code);
 }

@@ -219,7 +219,7 @@ public class UserServiceImpl implements UserService {
 		UserMemberRecord memberRecord = new UserMemberRecord();
 		UserOrganization userOrganization = new UserOrganization();
 		UserContractInfo userContractInfo = new UserContractInfo();
-		Role role = roleRepository.findById(userCreateBody.getRole()).get();
+		Role role = roleRepository.findByCode(userCreateBody.getRole());
 		List<UserMemberRecord> memberRecords = new ArrayList<UserMemberRecord>();
 
 		String emailOrPhoneNember = userCreateBody.getLogin();
@@ -238,7 +238,8 @@ public class UserServiceImpl implements UserService {
 		user.setBanned(false);
 		user.setUserRole(role);
 
-		if (userCreateBody.getRole().equals(RoleEnum.MERCHANT.getCode())) {
+		if ((user.getUserRole() != null && user.getUserRole().getName().equals(RoleEnum.MERCHANT.getCode()))
+				|| userCreateBody.getRole().equals(RoleEnum.MERCHANT.getCode())) {
 			user.setPartnerId(user.getId());
 		}
 
