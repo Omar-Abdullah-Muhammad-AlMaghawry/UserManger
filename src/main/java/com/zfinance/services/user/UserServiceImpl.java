@@ -31,7 +31,9 @@ import com.zfinance.orm.role.Role;
 import com.zfinance.orm.user.User;
 import com.zfinance.orm.userdefinedtypes.user.UserContact;
 import com.zfinance.orm.userdefinedtypes.user.UserContractInfo;
+import com.zfinance.orm.userdefinedtypes.user.UserInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserMemberRecord;
+import com.zfinance.orm.userdefinedtypes.user.UserNameInfo;
 import com.zfinance.orm.userdefinedtypes.user.UserOrganization;
 import com.zfinance.orm.userdefinedtypes.user.UserSecurity;
 import com.zfinance.repositories.role.RoleRepository;
@@ -213,8 +215,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void create(UserCreateBody userCreateBody) {
+	public User create(UserCreateBody userCreateBody) {
 		User user = new User();
+
+		if (userCreateBody.getId() != null && !userCreateBody.getId().isEmpty() && userCreateBody.getId() != "")
+			user = userRepository.findById(userCreateBody.getId()).orElse(new User());
+
 		UserContact userContact = new UserContact();
 		UserMemberRecord memberRecord = new UserMemberRecord();
 		UserOrganization userOrganization = new UserOrganization();
@@ -231,11 +237,14 @@ public class UserServiceImpl implements UserService {
 			userContact.setPhoneNumber(emailOrPhoneNember);
 		}
 
+		userContact.setPhoneNumber(userCreateBody.getPhoneNumber());
+
 		user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
 		user.setContact(userContact);
 		user.setCreatedAt((new Date()).toString());
 		user.setActive(true);
 		user.setBanned(false);
+		user.setMerchantId(userCreateBody.getMerchantId());
 		user.setUserRole(role);
 
 		if ((user.getUserRole() != null && user.getUserRole().getName().equals(RoleEnum.MERCHANT.getCode()))
@@ -268,6 +277,8 @@ public class UserServiceImpl implements UserService {
 		String encPassword = passwordEncoder.encode(userCreateBody.getPassword());
 		user.setEncPassword(encPassword);
 
+		user.setName(userCreateBody.getFirstName() + " " + userCreateBody.getLastName());
+
 		authManagerService.registerUser(user);
 //		user = userRepository.save(user);
 
@@ -278,7 +289,21 @@ public class UserServiceImpl implements UserService {
 		UserSecurity userSecurity = new UserSecurity();
 		userProfile.setSecurity(userSecurity);
 
+		UserInfo userInfo = new UserInfo();
+		UserNameInfo nameInfo = new UserNameInfo();
+		nameInfo.setFirst(userCreateBody.getFirstName());
+		nameInfo.setMiddle("");
+		nameInfo.setLast(userCreateBody.getLastName());
+		userInfo.setNameIntl(nameInfo);
+		userInfo.setNamePlain(nameInfo);
+		userInfo.setEmail(userCreateBody.getLogin());
+		userInfo.setPhoneNumber(userCreateBody.getPhoneNumber());
+		userInfo.setDateOfBirth(userCreateBody.getDateOfBirth());
+		userProfile.setPerson(userInfo);
+
 		userProfileService.saveUserProfile(userProfile);
+
+		return user;
 
 	}
 

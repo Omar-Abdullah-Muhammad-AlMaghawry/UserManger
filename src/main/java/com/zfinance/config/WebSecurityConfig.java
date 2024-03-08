@@ -27,7 +27,7 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-		String[] resources = { "/profiles/verifyUserProfileEmail" };
+		String[] resources = { "/profiles/verifyUserProfileEmail", "/users/registration" };
 		// authorizeRequests() is outdated and replaced with authorizeHttpRequests()
 		httpSecurity.authorizeHttpRequests().antMatchers("/**").permitAll().anyRequest().authenticated() // authenticate
 																											// all

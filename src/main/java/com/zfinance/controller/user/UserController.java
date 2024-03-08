@@ -53,11 +53,17 @@ public class UserController {
 	}
 
 	@PostMapping
-	public SuccessResponse<Void> save(@RequestBody UserCreateBody userCreateBody) {
+	public UserRecord save(@RequestBody UserCreateBody userCreateBody) {
 		userCreateBody.setPassword("12345");
-		userService.create(userCreateBody);
-		SuccessResponse<Void> successResponse = new SuccessResponse<>();
-		return successResponse;
+		User user = userService.create(userCreateBody);
+		return UserMapper.INSTANCE.mapUser(user);
+	}
+
+	@PostMapping("/registration")
+	public UserRecord registerUser(@RequestBody UserCreateBody userCreateBody) {
+		userCreateBody.setPassword("12345");
+		User user = userService.create(userCreateBody);
+		return UserMapper.INSTANCE.mapUser(user);
 	}
 
 	@DeleteMapping("/{userId}")
@@ -89,6 +95,13 @@ public class UserController {
 
 	@PostMapping("/saveUser")
 	public UserRecord saveUser(@RequestBody UserRecord userRecord) {
+		return UserMapper.INSTANCE.mapUser(userService.saveUser(UserMapper.INSTANCE.mapUserRecord(userRecord)));
+	}
+
+	@PostMapping("/invitePayee")
+	public UserRecord invitePayee(@RequestBody String refName) {
+		UserRecord userRecord = new UserRecord();
+		userRecord.setRefName(refName);
 		return UserMapper.INSTANCE.mapUser(userService.saveUser(UserMapper.INSTANCE.mapUserRecord(userRecord)));
 
 	}

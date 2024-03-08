@@ -17,7 +17,7 @@ public interface UserService {
 
 	public List<User> findAllUser();
 
-	public void create(UserCreateBody userCreateBody);
+	public User create(UserCreateBody userCreateBody);
 
 	public void delete(String userId);
 
