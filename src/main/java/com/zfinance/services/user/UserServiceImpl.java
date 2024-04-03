@@ -124,6 +124,9 @@ public class UserServiceImpl implements UserService {
 			if (usersFilter.getPersonalId() != null) {
 				criteria.and("members.organization.personType").is(usersFilter.getPersonalId());
 			}
+			if (usersFilter.getMerchantId() != null) {
+				criteria.and("merchantId").is(usersFilter.getMerchantId());
+			}
 		}
 
 		Query query = new Query(criteria);

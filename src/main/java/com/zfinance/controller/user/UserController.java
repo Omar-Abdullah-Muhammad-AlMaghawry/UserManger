@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +44,7 @@ public class UserController {
 		return paginationResponse;
 	}
 
-	@PostMapping("/viewAllUsers")
+	@GetMapping("/viewAllUsers")
 	public PaginationResponse<UserRecord> viewAllUsers() {
 		PaginationResponse<UserRecord> paginationResponse = new PaginationResponse<UserRecord>();
 		List<User> users = userService.findAllUser();
@@ -103,7 +104,6 @@ public class UserController {
 		UserRecord userRecord = new UserRecord();
 		userRecord.setRefName(refName);
 		return UserMapper.INSTANCE.mapUser(userService.saveUser(UserMapper.INSTANCE.mapUserRecord(userRecord)));
-
 	}
 
 }

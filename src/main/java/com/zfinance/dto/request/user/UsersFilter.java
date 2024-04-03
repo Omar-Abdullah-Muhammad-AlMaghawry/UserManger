@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class UsersFilter {
-	
+
 	private List<String> ids;
 	private String email;
 	private Boolean emailVerified;
@@ -26,4 +26,5 @@ public class UsersFilter {
 	private String tid;
 	private String virtualAccountNumber;
 	private String personalId;
+	private String merchantId;
 }
