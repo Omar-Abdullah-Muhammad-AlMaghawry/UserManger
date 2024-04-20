@@ -18,6 +18,7 @@ public class UserRecord {
 	private String name;
 	private String partnerId;
 	private String merchantId;
+	private String email;
 	private String refName;
 	private String createdAt;
 	private Boolean active;
