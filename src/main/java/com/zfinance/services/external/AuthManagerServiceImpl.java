@@ -55,4 +55,19 @@ public class AuthManagerServiceImpl implements AuthManagerService {
 
 	}
 
+	@Override
+	public String getConfigValueByCode(String code) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", tokenAuthorizationFilter.getToken());
+		HttpEntity<Void> entity = new HttpEntity<>(null, headers);
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(AUTH_MANAGER_URL + "/auth/getConfigValueByCode")
+				.queryParam("code", code);
+
+		ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
+				String.class);
+		return response.getBody();
+	}
+
 }

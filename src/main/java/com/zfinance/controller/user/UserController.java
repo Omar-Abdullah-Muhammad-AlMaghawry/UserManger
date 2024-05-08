@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zfinance.dto.request.PaginationRequestOptions;
 import com.zfinance.dto.request.user.ActiveDto;
+import com.zfinance.dto.request.user.PayeeInvitationBody;
 import com.zfinance.dto.request.user.UserCreateBody;
 import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
 import com.zfinance.dto.response.PaginationResponse;
 import com.zfinance.dto.response.SuccessResponse;
+import com.zfinance.dto.response.user.InvitationResponse;
 import com.zfinance.dto.response.user.UserRecord;
 import com.zfinance.mapper.UserMapper;
 import com.zfinance.orm.user.User;
@@ -106,4 +108,8 @@ public class UserController {
 		return UserMapper.INSTANCE.mapUser(userService.saveUser(UserMapper.INSTANCE.mapUserRecord(userRecord)));
 	}
 
+	@PostMapping("/invitePayees")
+	public InvitationResponse invitePayees(@RequestBody PayeeInvitationBody payeeInvitationBody) {
+		return new InvitationResponse(userService.invitePayees(payeeInvitationBody));
+	}
 }

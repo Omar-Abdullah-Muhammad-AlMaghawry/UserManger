@@ -2,6 +2,7 @@ package com.zfinance.services.user;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,13 +19,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.zfinance.dto.request.profile.NewCredentials;
+import com.zfinance.dto.request.user.PayeeInvitationBody;
 import com.zfinance.dto.request.user.UserCreateBody;
 import com.zfinance.dto.request.user.UsersFilter;
 import com.zfinance.dto.request.user.UsersSort;
+import com.zfinance.dto.response.user.Invitation;
 import com.zfinance.dto.response.user.UserContract;
 import com.zfinance.enums.RoleEnum;
+import com.zfinance.enums.ZFinConfigsEnum;
 import com.zfinance.exceptions.BusinessException;
 import com.zfinance.exceptions.DataNotFoundException;
+import com.zfinance.orm.invitation.link.InvitationLink;
 import com.zfinance.orm.organization.Organization;
 import com.zfinance.orm.profile.UserProfile;
 import com.zfinance.orm.role.Role;
@@ -40,6 +45,7 @@ import com.zfinance.repositories.role.RoleRepository;
 import com.zfinance.repositories.user.UserRepository;
 import com.zfinance.services.database.sequence.SequenceGeneratorService;
 import com.zfinance.services.external.AuthManagerService;
+import com.zfinance.services.invitation.link.InvitationLinkService;
 import com.zfinance.services.organization.OrganizationService;
 import com.zfinance.services.profile.UserProfileService;
 
@@ -57,6 +63,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserProfileService userProfileService;
+
+	@Autowired
+	private InvitationLinkService invitationLinkService;
 
 	@Autowired
 	private OrganizationService organizationService;
@@ -371,6 +380,8 @@ public class UserServiceImpl implements UserService {
 				User userToBeUpdated = getUserById(user.getId());
 				user.setEmail(userToBeUpdated.getEmail());
 				user.setEncPassword(userToBeUpdated.getEncPassword());
+			} else {
+				user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
 			}
 			// TODO: NEED TO BE CHECKED THE PERSON TYPE
 			if (user.getMembers() != null && !user.getMembers().isEmpty() && user.getMembers().get(0)
@@ -381,6 +392,43 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return userRepository.save(user);
+	}
+
+	private String encodeString(String str) {
+		byte[] bytes = str.getBytes();
+		byte[] encodedBytes = Base64.getEncoder().encode(bytes);
+		return new String(encodedBytes);
+	}
+
+	@Override
+	public List<Invitation> invitePayees(PayeeInvitationBody payeeInvitationBody) {
+		List<Invitation> invitations = new ArrayList<Invitation>();
+		if (payeeInvitationBody != null) {
+			int n = (payeeInvitationBody.getNumberOfPayees() != null && !payeeInvitationBody.getNumberOfPayees().trim()
+					.equals("")) ? Integer.valueOf(payeeInvitationBody.getNumberOfPayees()) : 0;
+			for (int i = 0; i < n; i++) {
+				Invitation invitation = new Invitation();
+				User user = new User();
+				user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+				if (n == 1)
+					user.setRefName(payeeInvitationBody.getRefName());
+				user = userRepository.save(user);
+				String payeeId = user.getId();
+				invitation.setPayeeId(payeeId);
+				String encodedUserId = encodeString(payeeId);
+				String invitationLink = authManagerService.getConfigValueByCode(ZFinConfigsEnum.FRONT_END_URL.getCode())
+						+ "/registration?merchantId=" + payeeInvitationBody.getMerchantId() + "&userId="
+						+ encodedUserId;
+				invitation.setLink(invitationLink);
+				InvitationLink link = new InvitationLink();
+				link.setActive(false);
+				link.setLink(invitationLink);
+				link.setPayeeId(payeeId);
+				invitationLinkService.saveInvitationLink(link);
+				invitations.add(invitation);
+			}
+		}
+		return invitations;
 	}
 
 }

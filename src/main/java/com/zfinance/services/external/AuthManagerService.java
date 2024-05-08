@@ -9,4 +9,6 @@ public interface AuthManagerService {
 
 	public UserRecord getUserFromToken(String token);
 
+	public String getConfigValueByCode(String code);
+
 }
