@@ -2,6 +2,7 @@ package com.zfinance.services.user;
 
 import java.util.List;
 
+import com.zfinance.dto.request.PaginationRequestOptions;
 import com.zfinance.dto.request.profile.NewCredentials;
 import com.zfinance.dto.request.user.PayeeInvitationBody;
 import com.zfinance.dto.request.user.UserCreateBody;
@@ -13,7 +14,7 @@ import com.zfinance.orm.user.User;
 
 public interface UserService {
 
-	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort);
+	public List<User> searchUsers(PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions);
 
 	public List<UserContract> countUsersByContract(String role);
 

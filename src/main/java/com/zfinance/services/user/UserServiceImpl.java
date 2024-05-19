@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -18,6 +19,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.zfinance.dto.request.PaginationRequestOptions;
 import com.zfinance.dto.request.profile.NewCredentials;
 import com.zfinance.dto.request.user.PayeeInvitationBody;
 import com.zfinance.dto.request.user.UserCreateBody;
@@ -80,8 +82,10 @@ public class UserServiceImpl implements UserService {
 	private SequenceGeneratorService sequenceGeneratorService;
 
 	@Override
-	public List<User> searchUsers(UsersFilter usersFilter, UsersSort usersSort) {
+	public List<User> searchUsers(PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions) {
 
+		UsersFilter usersFilter = paginationRequestOptions.getFilter();
+		UsersSort usersSort = paginationRequestOptions.getSort();
 		Criteria criteria = new Criteria();
 
 		// Add usersFilter criteria based on the usersFilter object
@@ -158,7 +162,16 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 
+		int page = (null != paginationRequestOptions.getPageNumber()) ? Integer.valueOf(paginationRequestOptions
+				.getPageNumber()) : 0;
+		int size = (null != paginationRequestOptions.getPageSize()) ? Integer.valueOf(paginationRequestOptions
+				.getPageSize()) : 0;
+		if (page != 0 && size != 0) {
+			Pageable pageable = Pageable.ofSize(size).withPage(page);
+			return mongoTemplate.find(query.with(pageable), User.class);
+		}
 		return mongoTemplate.find(query, User.class);
+
 	}
 
 	@Override
@@ -188,7 +201,9 @@ public class UserServiceImpl implements UserService {
 
 		UsersFilter usersFilter = new UsersFilter();
 		usersFilter.setRoles(Arrays.asList(role));
-		List<User> users = searchUsers(usersFilter, null);
+		PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions = new PaginationRequestOptions<UsersFilter, UsersSort>();
+		paginationRequestOptions.setFilter(usersFilter);
+		List<User> users = searchUsers(paginationRequestOptions);
 
 		List<UserContract> userContracts = aggregateUsers(users);
 

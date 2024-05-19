@@ -35,9 +35,17 @@ public class ActionsController {
 	@PostMapping("/actions")
 	public PaginationResponse<ActionsOfUsersRecord> getRecords(
 			@RequestBody PaginationRequestOptions<ActionsOfUsersFilter, ActionsOfUsersSort> options) {
-		List<ActionsOfUsers> actionsOfUsers = actionsService.getRecords(options.getFilter(), options.getSort());
+		List<ActionsOfUsers> actionsOfUsers = actionsService.getRecords(options);
 		PaginationResponse<ActionsOfUsersRecord> paginationResponse = new PaginationResponse<>();
+
 		paginationResponse.setRecords(ActionsOfUsersMapper.INSTANCE.mapActionsOfUserses(actionsOfUsers));
+		paginationResponse.setTotalRecords(actionsOfUsers.size());
+		int page = (null != options.getPageNumber()) ? Integer.valueOf(options.getPageNumber()) : 0;
+		int size = (null != options.getPageSize()) ? Integer.valueOf(options.getPageSize()) : 0;
+		paginationResponse.setPageSize(size);
+		paginationResponse.setPageNumber(page);
+		Integer totalPages = Integer.valueOf(actionsOfUsers.size() / 5);
+		paginationResponse.setTotalPages(totalPages);
 		return paginationResponse;
 	}
 

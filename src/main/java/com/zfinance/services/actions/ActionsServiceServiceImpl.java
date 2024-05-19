@@ -3,12 +3,14 @@ package com.zfinance.services.actions;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.zfinance.dto.request.PaginationRequestOptions;
 import com.zfinance.dto.request.actions.ActionsOfUsersFilter;
 import com.zfinance.dto.request.actions.ActionsOfUsersSort;
 import com.zfinance.orm.actionsOfUsers.Actions;
@@ -29,8 +31,11 @@ public class ActionsServiceServiceImpl implements ActionsService {
 	private ActionsRepository actionsRepository;
 
 	@Override
-	public List<ActionsOfUsers> getRecords(ActionsOfUsersFilter actionsOfUsersFilter,
-			ActionsOfUsersSort actionsOfUsersSort) {
+	public List<ActionsOfUsers> getRecords(PaginationRequestOptions<ActionsOfUsersFilter, ActionsOfUsersSort> options) {
+
+		ActionsOfUsersFilter actionsOfUsersFilter = options.getFilter();
+		ActionsOfUsersSort actionsOfUsersSort = options.getSort();
+
 		Criteria criteria = new Criteria();
 
 		// Add actionsOfUsersFilter criteria based on the actionsOfUsersFilter object
@@ -67,9 +72,13 @@ public class ActionsServiceServiceImpl implements ActionsService {
 				query.with(Sort.by(Sort.Order.desc("performedAt")));
 			}
 		}
-
+		int page = (null != options.getPageNumber()) ? Integer.valueOf(options.getPageNumber()) : 0;
+		int size = (null != options.getPageSize()) ? Integer.valueOf(options.getPageSize()) : 0;
+		if (page != 0 && size != 0) {
+			Pageable pageable = Pageable.ofSize(size).withPage(page);
+			return mongoTemplate.find(query.with(pageable), ActionsOfUsers.class);
+		}
 		return mongoTemplate.find(query, ActionsOfUsers.class);
-
 	}
 
 	@Override

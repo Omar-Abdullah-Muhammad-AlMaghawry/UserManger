@@ -39,10 +39,17 @@ public class UserController {
 	public PaginationResponse<UserRecord> searchUsers(
 			@RequestBody PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions) {
 		PaginationResponse<UserRecord> paginationResponse = new PaginationResponse<UserRecord>();
-		List<User> users = userService.searchUsers(paginationRequestOptions.getFilter(), paginationRequestOptions
-				.getSort());
+		List<User> users = userService.searchUsers(paginationRequestOptions);
 		paginationResponse.setRecords(UserMapper.INSTANCE.mapUsers(users));
 		paginationResponse.setTotalRecords(users.size());
+		int page = (null != paginationRequestOptions.getPageNumber()) ? Integer.valueOf(paginationRequestOptions
+				.getPageNumber()) : 0;
+		int size = (null != paginationRequestOptions.getPageSize()) ? Integer.valueOf(paginationRequestOptions
+				.getPageSize()) : 0;
+		paginationResponse.setPageSize(size);
+		paginationResponse.setPageNumber(page);
+		Integer totalPages = Integer.valueOf(users.size() / 5);
+		paginationResponse.setTotalPages(totalPages);
 		return paginationResponse;
 	}
 
@@ -92,7 +99,9 @@ public class UserController {
 
 	@PostMapping("/searchUsers")
 	public List<UserRecord> searchUsers(@RequestBody UsersFilter usersFilter) {
-		List<User> users = userService.searchUsers(usersFilter, null);
+		PaginationRequestOptions<UsersFilter, UsersSort> paginationRequestOptions = new PaginationRequestOptions<UsersFilter, UsersSort>();
+		paginationRequestOptions.setFilter(usersFilter);
+		List<User> users = userService.searchUsers(paginationRequestOptions);
 		return UserMapper.INSTANCE.mapUsers(users);
 	}
 
