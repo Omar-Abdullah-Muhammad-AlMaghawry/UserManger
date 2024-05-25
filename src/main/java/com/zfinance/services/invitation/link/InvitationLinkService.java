@@ -10,6 +10,8 @@ public interface InvitationLinkService {
 
 	public InvitationLink getInvitationLinkById(String id);
 
+	public List<InvitationLink> getInvitationLinkByPayeeId(String payeeId);
+
 	public InvitationLink saveInvitationLink(InvitationLink invitationLink);
 
 	public void deleteInvitationLinkById(String id);

@@ -46,4 +46,9 @@ public class InvitationLinkServiceImpl implements InvitationLinkService {
 		invitationLinkRepository.deleteById(id);
 	}
 
+	@Override
+	public List<InvitationLink> getInvitationLinkByPayeeId(String payeeId) {
+		return invitationLinkRepository.findByPayeeId(payeeId);
+	}
+
 }
