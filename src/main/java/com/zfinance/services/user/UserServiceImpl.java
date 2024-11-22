@@ -50,6 +50,7 @@ import com.zfinance.services.external.AuthManagerService;
 import com.zfinance.services.invitation.link.InvitationLinkService;
 import com.zfinance.services.organization.OrganizationService;
 import com.zfinance.services.profile.UserProfileService;
+import com.zfinance.services.utils.UtilsService;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -77,6 +78,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private UtilsService utilsService;
 
 	@Autowired
 	private SequenceGeneratorService sequenceGeneratorService;
@@ -244,9 +248,17 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User create(UserCreateBody userCreateBody) {
 		User user = new User();
-
-		if (userCreateBody.getId() != null && !userCreateBody.getId().isEmpty() && userCreateBody.getId() != "")
+		InvitationLink invitationLink = null;
+		if (userCreateBody.getId() != null && !userCreateBody.getId().isEmpty() && userCreateBody.getId() != "") {
+			List<InvitationLink> invitationLinkByPayeeId = invitationLinkService.getInvitationLinkByPayeeId(
+					userCreateBody.getId());
+			if (invitationLinkByPayeeId != null && invitationLinkByPayeeId.size() != 0) {
+				invitationLink = invitationLinkByPayeeId.get(0);
+				if (invitationLink != null && !invitationLink.getActive())
+					throw new BusinessException("error_inActiveInvitationLink");
+			}
 			user = userRepository.findById(userCreateBody.getId()).orElse(new User());
+		}
 
 		UserContact userContact = new UserContact();
 		UserMemberRecord memberRecord = new UserMemberRecord();
@@ -329,6 +341,11 @@ public class UserServiceImpl implements UserService {
 		userProfile.setPerson(userInfo);
 
 		userProfileService.saveUserProfile(userProfile);
+
+		if (invitationLink != null) {
+			invitationLink.setActive(false);
+			invitationLinkService.saveInvitationLink(invitationLink);
+		}
 
 		return user;
 
@@ -424,7 +441,10 @@ public class UserServiceImpl implements UserService {
 			for (int i = 0; i < n; i++) {
 				Invitation invitation = new Invitation();
 				User user = new User();
-				user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+				// TODO
+				// NEED TO BE SEQ AND THE GENERATE PUT ON ANOTHER FIELD
+				user.setId(utilsService.generateRandomNumberWithTs());
+
 				if (n == 1)
 					user.setRefName(payeeInvitationBody.getRefName());
 				user = userRepository.save(user);
@@ -436,7 +456,7 @@ public class UserServiceImpl implements UserService {
 						+ encodedUserId;
 				invitation.setLink(invitationLink);
 				InvitationLink link = new InvitationLink();
-				link.setActive(false);
+				link.setActive(true);
 				link.setLink(invitationLink);
 				link.setPayeeId(payeeId);
 				invitationLinkService.saveInvitationLink(link);

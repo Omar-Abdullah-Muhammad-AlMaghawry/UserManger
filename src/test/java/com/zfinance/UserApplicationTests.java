@@ -1,4 +1,4 @@
-package com.efinance.user;
+package com.zfinance;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
